@@ -1,0 +1,68 @@
+题目一：在一个二维的字符盘上找到给定的字符串，如果找到，输出True
+def find1(board,word,mat):
+    for i in range(len(board)):
+        for j in range(len(board[0])):
+            if board[i][j] == word[0]:
+                helper1(board,word,i,j,mat)
+
+def helper1(board,word,x,y,mat):
+    board[x][y] = " "
+    mat[x][y] = word[0]
+    if len(word) == 1:
+        print(True)
+        print(mat)
+        return
+    if x-1>=0 and x-1 <len(board) and y >=0 and y<len(board[0]) and board[x-1][y] == word[1]:
+        helper1(board, word[1:], x-1, y, mat)
+        return
+    if x+1>=0 and x+1 <len(board) and y >=0 and y<len(board[0]) and board[x+1][y] == word[1]:
+        helper1(board, word[1:], x+1, y, mat)
+        return
+    if x >=0 and x<len(board) and y-1 >=0 and y-1 < len(board[0]) and board[x][y-1] ==word[1]:
+        helper1(board,word[1:],x,y-1,mat)
+        return
+    if x>=0 and x<len(board) and y+1>= 0 and y+1 <len(board[0]) and board[x][y+1] == word[1]:
+        helper1(board,word[1:],x,y+1,mat)
+        return
+    board[x][y] = word[0]
+    mat[x][y]=0
+    return
+
+def find2(board,word,mat):
+    for i in range(len(board)):
+        for j in range(len(board[0])):
+            if board[i][j] == word[0]:
+                if helper2(board,word,i,j,mat):
+                    return True
+
+def helper2(board,word,x,y,mat):
+    if len(word) ==0 :
+        return True
+    if x>0 and x<len(board) and y>=0 and y<len(board[0]):
+        if board[x][y] == word[0]:
+            board[x][y] = " "
+            if helper2(board,word[1:],x-1,y,mat):
+                return True
+            if helper2(board,word[1:],x+1,y,mat):
+                return True
+            if helper2(board,word[1:],x,y-1,mat):
+                return True
+            if helper2(board,word[1:],x,y+1,mat):
+                return True
+            board[x][y] = word[0]
+            return False
+        return False
+
+
+if __name__ == "__main__":
+    board = [['a','c','r','k','l'],
+             ['l','w','o','e','i'],
+             ['a','f','d','e','c'],
+             ['k','e','e','w','e'],
+             ['o','d','r','o','s']]
+    mat = [[0, 0, 0, 0, 0],
+           [0, 0, 0, 0, 0],
+           [0, 0, 0, 0, 0],
+           [0, 0, 0, 0, 0],
+           [0, 0, 0, 0, 0]]
+    print(find2(board,'week',mat))

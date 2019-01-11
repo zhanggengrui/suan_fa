@@ -19,3 +19,32 @@ if __name__ =="__main__":
     print(n_dixt)
     
  输出：[[20, 4], [23, 8], [10, 2], [15, 7], [16, 8], [6, 5], [9, 8], [7, 6]]
+
+
+
+
+# 哈希排序问题
+#题目描述： 给定一个数组，已知数组中有大量的重复数字，对这个数组进行高效的排序
+import collections
+def sort(arr):
+    dic = collections.defaultdict(int)
+    for v in arr:
+        dic[v] +=1
+    _dic = sorted(dic.items(),key=lambda item:item[0])# 字典按键排序，返回一个排序的（key，value）的列表
+    #_dic = sorted(dic.items(), key=lambda item: item[1])  字典按值排序，返回一个排序的（key，value）的列表
+    index = 0
+    for m in _dic:
+        count = m[1]
+        while count>0:
+            arr[index] = m[0]
+            index +=1
+            count -=1
+    return arr
+
+
+if __name__ =="__main__":
+    arr = [15,12,15,2,2,12,2,3,12,100,2,2]
+    arr_ = arr[:]
+    print(sorted(arr_))
+    print(arr)
+    print(sort(arr))

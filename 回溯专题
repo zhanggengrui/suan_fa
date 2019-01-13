@@ -90,7 +90,6 @@ def quanpaiie_2(arr,result):
         newresult = result + arr[i]  # 建立一个新的列表对象
         quanpaiie_2(arr[:i]+arr[i+1:],newresult)
 
-
 if __name__ =="__main__":
     arr = "abc"
     quanpaiie_1(arr,[])

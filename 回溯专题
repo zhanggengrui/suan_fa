@@ -89,9 +89,23 @@ def quanpaiie_2(arr,result):
     for i in range(len(arr)):
         newresult = result + arr[i]  # 建立一个新的列表对象
         quanpaiie_2(arr[:i]+arr[i+1:],newresult)
+        
+def quanpaiie_3(arr,result):
+    if len(arr) == 0:
+        print(result)
+        return
+    for i in range(len(arr)):
+        if arr[i] in arr[:i]:   #判断是否在之前已经排过，如果排过则忽略它
+            continue
+        else:
+            newresult = result + arr[i]  # 建立一个新的列表对象
+            quanpaiie_2(arr[:i]+arr[i+1:],newresult)
+
 
 if __name__ =="__main__":
     arr = "abc"
     quanpaiie_1(arr,[])
     quanpaiie_2(arr,"")
+    arr2 = "aab"
+    quanpailie_3(arr2,"")   #去掉全排列中重复的
    

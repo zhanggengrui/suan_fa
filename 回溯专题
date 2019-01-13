@@ -66,3 +66,33 @@ if __name__ == "__main__":
            [0, 0, 0, 0, 0],
            [0, 0, 0, 0, 0]]
     print(find2(board,'week',mat))
+    
+    
+=================================================================================================================
+    
+    
+题目二：全排列问题
+#题目描述：给出一个序列，返回它的全排列
+def quanpaiie_1(arr,result):
+    if len(arr) == 0:
+        print(result)
+        return
+    for i in range(len(arr)):
+        result += arr[i]
+        quanpaiie_1(arr[:i]+arr[i+1:],result)
+        result.pop()    # 回溯后把原来的拿出来
+
+def quanpaiie_2(arr,result):
+    if len(arr) == 0:
+        print(result)
+        return
+    for i in range(len(arr)):
+        newresult = result + arr[i]  # 建立一个新的列表对象
+        quanpaiie_2(arr[:i]+arr[i+1:],newresult)
+
+
+if __name__ =="__main__":
+    arr = "abc"
+    quanpaiie_1(arr,[])
+    quanpaiie_2(arr,"")
+   

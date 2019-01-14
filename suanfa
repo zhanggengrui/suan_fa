@@ -21,7 +21,7 @@ if __name__ =="__main__":
  输出：[[20, 4], [23, 8], [10, 2], [15, 7], [16, 8], [6, 5], [9, 8], [7, 6]]
 
 
-
+=================================================================================================================
 
 # 哈希排序问题
 #题目描述： 给定一个数组，已知数组中有大量的重复数字，对这个数组进行高效的排序
@@ -41,10 +41,43 @@ def sort(arr):
             count -=1
     return arr
 
-
 if __name__ =="__main__":
     arr = [15,12,15,2,2,12,2,3,12,100,2,2]
     arr_ = arr[:]
     print(sorted(arr_))
     print(arr)
     print(sort(arr))
+
+==================================================================================================================
+
+# 分治思想解决连续字列表的最大和问题
+def Mid_max(array):
+    mid = len(array)//2
+    left_sum = 0
+    right_sum = 0
+    left_max = 0
+    right_max = 0
+    for i in range(mid,-1,-1):
+        left_sum += array[i]
+        left_max = max(left_max,left_sum)
+    for j in range(mid+1,len(array),1):
+        right_sum += array[j]
+        right_max = max(right_max,right_sum)
+    return left_max+right_max
+
+# 分治思想解决连续字列表的最大和
+def max_sub_array(array):
+    if len(array) < 2:
+        return array[0]
+    mid = len(array)//2
+    left_array = array[:mid]
+    right_array = array[mid:]
+    left_max = max_sub_array(left_array)
+    right_max = max_sub_array(right_array)
+    mid_max = Mid_max(array)
+    return max(left_max,right_max,mid_max)
+
+if __name__ =="__main__":
+    array = [-2,1,-3,4,-1,2,1,-5,4]
+    print(max_sub_array(array))
+

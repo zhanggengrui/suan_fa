@@ -1,0 +1,33 @@
+# 归并排序
+def merge_sort(list):
+    if len(list) < 2:
+        return
+    mid = len(list)//2
+    left_list = list[:mid]
+    right_list = list[mid:]
+    merge_sort(left_list)
+    merge_sort(right_list)
+    left_ptr = 0
+    right_ptr = 0
+    cur = 0
+    while left_ptr < len(left_list) and  right_ptr < len(right_list):
+        if left_list[left_ptr] <= right_list[right_ptr]:
+            list[cur] = left_list[left_ptr]
+            left_ptr += 1
+        else:
+            list[cur] = right_list[right_ptr]
+            right_ptr += 1
+        cur += 1
+    while left_ptr < len(left_list):
+        list[cur] = left_list[left_ptr]
+        left_ptr += 1
+        cur += 1
+    while right_ptr < len(right_list):
+        list[cur] = right_list[right_ptr]
+        right_ptr += 1
+        cur += 1
+
+if __name__ =="__main__":
+    list = [2,3,1,4,3,0]
+    merge_sort(list)
+    print(list)

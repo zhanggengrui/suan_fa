@@ -1,0 +1,33 @@
+#题目一：求两个字符串的最长公共子串
+def get_max_sub_str(arr1,arr2):
+    res = ''
+    len1 = len(arr1)
+    len2 = len(arr2)
+    mat = [[None for i in range(len1+1)]for j in range(len2+1)]
+    for i in range(len1+1):
+        mat[0][i] = 0
+    for j in range(len2+1):
+        mat[j][0] = 0
+    maxs = 0
+    maxindex = 0
+    for i in range(0,len1+1):
+        for j in range(0,len2+1):
+            if arr1[i-1] == arr2[j-1]:
+                mat[i][j] = mat[i-1][j-1]+1
+                if mat[i][j] > maxs:
+                    maxs = mat[i][j]
+                    maxindex = i
+            else:
+                mat[i][j] = 0
+    i = maxindex - maxs
+    while i <maxindex:
+        res = res+arr1[i]
+        i +=1
+
+    return res
+
+
+if __name__ =="__main__":
+    arr1 = 'abccade'
+    arr2 = 'dgcadde'
+    print(get_max_sub_str(arr1,arr2))

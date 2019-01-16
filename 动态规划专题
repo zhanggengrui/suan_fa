@@ -31,3 +31,29 @@ if __name__ =="__main__":
     arr1 = 'abccade'
     arr2 = 'dgcadde'
     print(get_max_sub_str(arr1,arr2))
+
+
+===============================================================================
+# 题目二：挖矿问题
+def max_gold(arr1,arr2):
+    arr1.insert(0,0) # gold
+    arr2.insert(0,0) # man
+    len1 = len(arr1)
+    mat = [[0 for i in range(11)]for j in range(len1)]
+    for i in range(1,len1):
+        for j in range(1,11):
+            if arr2[i] > j:
+                mat[i][j] = mat[i-1][j]
+            else:
+                mat[i][j] = max(arr1[i]+mat[i-1][j-arr2[i]],mat[i-1][j])
+    return mat
+
+
+if __name__ =="__main__":
+    arr1 = [400,500,200,300,350]
+    arr2 = [5,5,3,4,3]
+    mat = max_gold(arr1,arr2)
+    for i in mat:
+        print(i)
+        
+

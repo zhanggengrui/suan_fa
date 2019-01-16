@@ -57,3 +57,46 @@ if __name__ =="__main__":
         print(i)
         
 
+=====================================================================================
+# 题目描述，有一个容量为8的背包，要装下4个物品，物品的重量和价值如下，求这个包能装的最大的价值
+# w = [2,3,4,5]
+# v = [3,4,5,6]
+
+#求解能装下的价值最高的
+def bag(w,v,n):
+    w.insert(0,0)
+    v.insert(0,0)
+    lens = len(w)
+    mat = [[0 for i in range(n+1)]for j in range(lens)]
+    for i in range(1,lens):
+        for j in range(1,n+1):
+            if w[i]>j:
+                mat[i][j] = mat[i-1][j]
+            else:
+                mat[i][j] = max(v[i]+mat[i-1][j-w[i]],mat[i-1][j])
+    w.pop(0)
+    v.pop(0)
+    return mat
+
+#找出到底装了哪些物品
+def find_witch(mat,w):
+    w.insert(0,0)
+    result =[]
+    m = len(mat)
+    n= len(mat[0])-1
+    for i in range(m-1,0,-1):
+        if mat[i][n] > mat[i-1][n]: #如果大于，说明这个东西被选中了，调到mat[i-1][n-w[i]]
+            result.append(i)
+            n = n - w[i]
+    return result
+
+if __name__ =="__main__" :
+    w = [2,3,4,5]
+    v = [3,4,5,6]
+    mat = bag(w,v,8)
+    for i in mat:
+        print(i)
+    print(find_witch(mat,w))
+
+
+

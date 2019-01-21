@@ -134,3 +134,42 @@ if __name__ =="__main__":
      longestword = lw.getlongeststr(strarray)
      if longestword != False:
         print(longestword)
+
+
+============================================================================================================================
+题目描述：
+用递归的方法，求一个字符串中连续出现相同字符的最大值
+def getmaxsamechr_2(arr,max,index,allmax):
+    if index == len(arr)-1:
+        return allmax
+    if arr[index] == arr[index+1]:
+        max = max+1
+        index = index+1
+        if max>allmax:
+            allmax = max
+        return getmaxsamechr_2(arr,max,index,allmax)  # 尾递归，将最后一层返回的数值返回到最外层，很重要
+    else:
+        max = 0
+        index = index+1
+        return getmaxsamechr_2(arr,max,index,allmax)
+
+if __name__ =="__main__":
+    arr = "aaabbc"
+    max = 1
+    index = 0
+    allmax = 1
+    print(getmaxsamechr_2(arr,max,index,allmax))           #输出3
+   
+
+
+
+
+
+
+
+
+
+
+
+
+

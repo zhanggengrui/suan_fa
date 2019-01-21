@@ -72,6 +72,24 @@ class Solution2(object):
         return None
         
 ===============================================================================
+题目：最长递增子序列
+def getmaxAscendinglen(arr):
+    lens = len(arr)
+    mat = [ 1 for i in range(lens)]
+    maxlen = 1
+    for i in range(lens):
+        for j in range(i):
+            if arr[i] > arr[j] :
+                mat[i] = max(mat[j]+1,mat[i])
+                if mat[i] > maxlen:
+                    maxlen = mat[i]
+    return maxlen
+
+
+if __name__ =="__main__":
+    s = "xbcdza"
+    print(getmaxAscendinglen(s))
+==================================================================
 
 # 题目二：挖矿问题
 def max_gold(arr1,arr2):

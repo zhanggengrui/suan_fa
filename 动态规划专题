@@ -156,5 +156,36 @@ if __name__ =="__main__" :
         print(i)
     print(find_witch(mat,w))
 
+=======================================================================================================
+# 题目：求两个字符串的相对编辑距离 （书P222）
+def edit_distance(s1,s2):
+    if s1 == None and s2 == None:
+        return 0
+    if s1 == None:
+        return len(s2)
+    if s2 == None:
+        return len(s1)
+    s1 = '0' + s1
+    s2 = '0' + s2
+    mat = [[0 for i in range(len(s2))]for j in range(len(s1))]
+    for i in range(len(s2)):
+        mat[0][i] = i
+    for j in range(len(s1)):
+        mat[j][0] = j
+    for i in range(1,len(s1)):
+        for j in range(1,len(s2)):
+            if s1[i] == s2[j]:
+                mat[i][j] = min(mat[i-1][j]+1,mat[i][j-1]+1,mat[i-1][j-1])
+            else:
+                mat[i][j] = min(mat[i-1][j]+1,mat[i][j-1]+1,mat[i-1][j-1]+1)
+    s1 = s1[1:]
+    for i in mat:
+        print(i)
+    return mat[-1][-1]
+
+if __name__ =="__main__":
+    s1 = 'bciln'
+    s2 = 'fciling'
+    print(edit_distance(s1,s2))
 
 

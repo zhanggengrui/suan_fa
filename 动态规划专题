@@ -189,3 +189,27 @@ if __name__ =="__main__":
     print(edit_distance(s1,s2))
 
 
+=========================================================================================
+题目寻找最短路径（书P224）
+def get_min_path(arr):
+    if arr == None:
+        return None
+    row = len(arr)
+    col = len(arr[0])
+    mat = [[0 for i in range(col)] for j in range(row)]
+    mat[0][0] = arr[0][0]
+    for i in range(1,col):
+        mat[0][i] = mat[0][i-1]+arr[0][i]
+    for j in range(row):
+        mat[j][0] = mat[j-1][0] + arr[j][0]
+    for i in range(1,row):
+        for j in range(1,col):
+            mat[i][j] = min (mat[i-1][j],mat[i][j-1])+arr[i][j]
+    for i in mat:
+        print(i)
+    return mat[-1][-1]
+
+
+if __name__ =="__main__":
+    arr=[[1,4,3],[8,7,5],[2,1,5]]
+    print(get_min_path(arr))

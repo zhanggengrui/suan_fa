@@ -1,32 +1,4 @@
-# 归并排序
-def merge_sort(arr):
-    if len(arr) == 1:
-        return arr
-    lens = len(arr)
-    mid = lens//2
-    left = merge_sort(arr[:mid])
-    right = merge_sort(arr[mid:])
-    result = []
-    left_ptr = 0
-    right_ptr = 0
-    while left_ptr<len(left) and right_ptr < len(right):
-        if left[left_ptr]<right[right_ptr]:
-            result.append(left[left_ptr])
-            left_ptr+=1
-        else:
-            result.append(right[right_ptr])
-            right_ptr+=1
-    result += left[left_ptr:]
-    result += right[right_ptr:]
-    return result
 
-
-if __name__ == "__main__":
-    list = [2, 3, 1, 4, 3, 0]
-    sss=merge_sort(list)
-    print(sss)
- 
-============================================================================================    
 # 冒泡排序
 def bubble_sort(arr):
     lens = len(arr)
@@ -96,3 +68,58 @@ def shell_sort(arr):
 if __name__ =="__main__":
     arr = [3,4,2,8,9,5,1]
     print(shell_sort(arr))
+
+====================================================================================================
+#快速排序
+def quick_sort(arr,a,b):
+    if a>=b:
+        return
+    pivot = arr[b]
+    left =a
+    right = b-1
+    while left<=right:
+        while left<=right and arr[left]<=pivot:
+            left = left+1
+        while left<=right and arr[right]>=pivot:
+            right =right-1
+        while left<=right:
+            arr[left],arr[right] = arr[right],arr[left]
+            left = left+1
+            right = right-1
+    arr[left],arr[b] = arr[b],arr[left]
+    quick_sort(arr,a,left-1)
+    quick_sort(arr,left+1,b)
+
+if __name__ == "__main__":
+    list = [2, 3, 1, 4, 3, 0]
+    quick_sort(list,0,len(list)-1)
+    print(list)
+
+============================================================================================================
+# 归并排序
+def merge_sort(arr):
+    if len(arr) == 1:
+        return arr
+    lens = len(arr)
+    mid = lens//2
+    left = merge_sort(arr[:mid])
+    right = merge_sort(arr[mid:])
+    result = []
+    left_ptr = 0
+    right_ptr = 0
+    while left_ptr<len(left) and right_ptr < len(right):
+        if left[left_ptr]<right[right_ptr]:
+            result.append(left[left_ptr])
+            left_ptr+=1
+        else:
+            result.append(right[right_ptr])
+            right_ptr+=1
+    result += left[left_ptr:]
+    result += right[right_ptr:]
+    return result
+
+
+if __name__ == "__main__":
+    list = [2, 3, 1, 4, 3, 0]
+    sss=merge_sort(list)
+    print(sss)

@@ -76,7 +76,7 @@ def insert_sort(arr):
         while n >= 0  and arr[n] > tmp:
             arr[n+1] = arr[n]         # 把所有元素向后退一位
             n = n-1
-        arr[n+1] = tmp                # 将tmp插到这里
+        arr[n+1] = tmp                # 将tmp插到这里，别忘了+1
     return arr
 
 if __name__ =="__main__":

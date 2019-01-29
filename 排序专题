@@ -31,8 +31,8 @@ if __name__ =="__main__":
     list = [2,3,1,4,3,0]
     merge_sort(list)
     print(list)
-    
-    
+ 
+============================================================================================    
 # 冒泡排序
 def bubble_sort(arr):
     lens = len(arr)
@@ -50,7 +50,7 @@ if __name__ =="__main__":
     arr = [3,4,2,8,9,5,1]
     print(bubble_sort(arr))
 
-
+=============================================================================================
 # 选择排序
 def select_sort(arr):
     lens = len(arr)
@@ -65,3 +65,20 @@ def select_sort(arr):
 if __name__ =="__main__":
     arr = [3,4,2,8,9,5,1]
     print(select_sort(arr))
+
+=============================================================================================
+#插入排序
+def insert_sort(arr):
+    lens = len(arr)
+    for i in range(1,lens):
+        tmp = arr[i]
+        n = i-1
+        while n >= 0  and arr[n] > tmp:
+            arr[n+1] = arr[n]         # 把所有元素向后退一位
+            n = n-1
+        arr[n+1] = tmp                # 将tmp插到这里
+    return arr
+
+if __name__ =="__main__":
+    arr = [3,4,2,8,9,5,1]
+    print(insert_sort(arr))

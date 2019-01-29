@@ -82,3 +82,23 @@ def insert_sort(arr):
 if __name__ =="__main__":
     arr = [3,4,2,8,9,5,1]
     print(insert_sort(arr))
+
+================================================================================================
+# 希尔排序
+def shell_sort(arr):
+    lens = len(arr)
+    jmp = lens//2
+    while jmp != 0 :                     # 当jmp等于1时，为整个序列的排序
+        for i in range(jmp,lens):        # 这里的jmp相当于插入排序的1
+            tmp = arr[i]
+            n = i- jmp
+            while n>=0 and arr[n]>tmp:
+                arr[n+jmp] = arr[n]      # 向后推tmp位
+                n = n-jmp
+            arr[n+jmp] = tmp             # 记得不要忘了+jmp
+        jmp = jmp//2
+    return  arr
+
+if __name__ =="__main__":
+    arr = [3,4,2,8,9,5,1]
+    print(shell_sort(arr))

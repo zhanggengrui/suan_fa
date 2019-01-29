@@ -31,3 +31,21 @@ if __name__ =="__main__":
     list = [2,3,1,4,3,0]
     merge_sort(list)
     print(list)
+    
+    
+# 冒泡排序
+def bubble_sort(arr):
+    lens = len(arr)
+    for i in range(lens-1,-1,-1):
+        flag = True                   # 用flag判断是否进行了转换操作
+        for j in range(i):
+            if arr[j] > arr[j+1]:
+                arr[j],arr[j+1] = arr[j+1],arr[j]
+                flag = False          # 当进行了转换操作时，flag变成了False
+        if flag == True:
+            break
+    return arr
+
+if __name__ =="__main__":
+    arr = [3,4,2,8,9,5,1]
+    print(bubble_sort(arr))

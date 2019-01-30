@@ -162,3 +162,24 @@ if __name__ == "__main__":
     list = [2, 3, 1, 4, 3, 0,5,7]
     heap_sort(list)
     print(list)
+================================================================================================
+#基数排序
+def radix_sort(list):
+    size = len(list)
+    n = 1
+    while n<=100:
+        bucket = [[None for i in range(size)]for j in range(10)]
+        for i in range(size):
+            m = (list[i]//n)%10
+            bucket[m][i] = list[i]
+        k = 0
+        for i in range(10):
+            for j in range(size):
+                if bucket[i][j]!=None:
+                    list[k] = bucket[i][j]
+                    k = k+1
+        n = n*10
+if __name__ == "__main__":
+    list = [118,591,985,901,316,826,23,851,521,7]
+    radix_sort(list)
+    print(list)

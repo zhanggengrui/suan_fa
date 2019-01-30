@@ -133,3 +133,32 @@ if __name__ == "__main__":
 （1）快速排序的合并是直接合并，因为已经进行过比较了
 （2）归并排序的合并需要进行比较才能进行合并
 ===============================================================================================
+# 堆排序
+def build_heap(list,size):
+    for i in range(int(size/2)-1,-1,-1):    #最初建堆时，要从最后一个有子节点的位置开始往上调整
+        ad_heap(list,i,size)
+
+def ad_heap(list,i,size):
+    left = 2*i+1
+    right= 2*i+2
+    maxs = i
+    if i < int(size/2):     #i要小于int(size/2),因为最下面一层没有子节点了，只有有子节点的节点才能进行调整
+        if left<size and list[left]>list[maxs]:
+            maxs = left
+        if right<size and list[right]>list[maxs]:
+            maxs = right
+        if maxs != i:
+            list[maxs],list[i] = list[i],list[maxs]
+            ad_heap(list,maxs,size)               #maxs位置的值被换了，所以要检查maxs位置是否满足条件
+
+def heap_sort(list):
+    size = len(list)
+    build_heap(list,size)                       #自底向上调整
+    for i in range(size-1,-1,-1):
+        list[i],list[0] = list[0],list[i]
+        ad_heap(list,0,i)                        # 注意这里是调整0的位置，而且堆的size变小
+
+if __name__ == "__main__":
+    list = [2, 3, 1, 4, 3, 0,5,7]
+    heap_sort(list)
+    print(list)

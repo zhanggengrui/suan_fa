@@ -161,7 +161,29 @@ if __name__ =="__main__":
     print(getmaxsamechr_2(arr,max,index,allmax))           #输出3
    
 
+===================================================================================================
+#二分查找
+def binary_search(list,low,high,num):
+    if low > high :
+        return False
+    mid = (low+high)//2
+    if list[mid]==num:
+        return True
+    elif list[mid]>num:
+        high = mid-1
+        return binary_search(list,low,high,num)    #尾递归
+    elif list[mid]<num:
+        low = mid+1
+        return binary_search(list,low,high,num)
 
+def search(list,num):
+    high = len(list)-1
+    low =0
+    return binary_search(list,low,high,num)
+
+if __name__ == "__main__":
+    list = [2,4,5,7,8,9,12,14,17,19,22,25,27,28,33,37]
+    print(search(list,22))
 
 
 

@@ -185,9 +185,52 @@ if __name__ == "__main__":
     list = [2,4,5,7,8,9,12,14,17,19,22,25,27,28,33,37]
     print(search(list,22))
 
+=====================================================================================================
+# 哈希查找（链表法）
+class Node():
+    def __init__(self,val):
+        self.val = val
+        self.next = None
 
+def creat_hash(list,box_num):
+    hash_set = [-1]*box_num
+    for i in range(box_num):
+        hash_set[i] = Node(None)
+    for i in range(len(list)):
+        hash_index = list[i]% box_num
+        cur = hash_set[hash_index]
+        if cur.val == None:
+            hash_set[hash_index] =  Node(list[i])
+        else:
+            while cur.next != None:
+                cur = cur.next
+            cur.next =  Node(list[i])
+    return hash_set
 
+def print_hash_set(hash):
+    for i in range(len(hash)):
+        print(i,end="")
+        print(":",end="")
+        cur = hash[i]
+        while cur != None:
+            print(cur.val,end=" ")
+            cur = cur.next
+        print("\n")
 
+def hash_search(hash,val):
+    hash_index = val%10
+    cur = hash[hash_index]
+    while cur != None:
+        if cur.val ==val:
+            return True
+        cur = cur.next
+    return False
+
+if __name__ =="__main__":
+    list = [23,11,1,17,10,10,11,29]
+    hash_set = creat_hash(list,10)
+    print_hash_set(hash_set)
+    print(hash_search(hash_set,17))
 
 
 

@@ -1,0 +1,44 @@
+#题目描述：寻找面积最大的岛屿
+class area():                  # 设置一个类对象用来进行存储
+    def __init__(self):
+        self.cur = 0
+        self.maxs = 0
+
+def max_area(mat,a):
+    row = len(mat)
+    col = len(mat[0])
+    for i in range(row):
+        for j in range(col):
+            if mat[i][j] == 1:
+                a.cur = 0      #每次遍历之前要将a.cur重置为0
+                dfs(mat,i,j,a)
+                if a.cur>a.maxs:
+                    a.maxs = a.cur
+    return a.maxs
+
+def dfs(mat,x,y,a):
+    mat[x][y] = 2             #将遍历过的位置标记，以防重新遍历
+    a.cur +=1
+    if x>0 and mat[x-1][y] ==1:
+        dfs(mat,x-1,y,a)
+    if x<len(mat)-1 and mat[x+1][y] == 1:
+        dfs(mat,x+1,y,a)
+    if y>0 and mat[y-1][x] == 1:
+        dfs(mat,x,y-1,a)
+    if y<len(mat[0])-1 and mat[x][y+1] == 1:
+        dfs(mat,x,y+1,a)
+    return
+
+if __name__ =="__main__":
+    a = area()
+    mat = [[0,0,0,0,1,1,0],
+           [0,1,1,0,1,1,0],
+           [0,1,1,0,0,0,0],
+           [0,0,1,0,0,1,1],
+           [0,0,0,0,0,0,0],
+           [0,0,1,1,0,0,0],
+           [0,0,0,1,0,0,1]]
+    print(max_area(mat,a))
+    for i in mat:
+        print(i)
+ ============================================================================================

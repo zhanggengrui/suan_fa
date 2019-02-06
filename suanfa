@@ -233,7 +233,27 @@ if __name__ =="__main__":
     print(hash_search(hash_set,17))
 
 
+==========================================================================================================
+# 求二进制数中1的个数（P248）
+# 方法1：移位计数法
+def count_one_1(num):
+    count = 0
+    while num > 0:
+        if num&1 == 1: 
+            count+=1
+        num>>=1
+    return count
+# 方法2：n&(n-1)，会去掉最后一个1,
+def count_one_2(num):
+    count = 0
+    while num > 0:
+        num = num &(num-1)
+        count += 1
+    return count
 
+
+if __name__ =="__main__":
+    print(count_one_2(7))
 
 
 

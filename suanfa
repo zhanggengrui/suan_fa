@@ -288,4 +288,21 @@ def int_to_hex(num):
 if __name__ =="__main__":
     print(int_to_hex(15))
 
+=========================================================================================================
+# 计算一个数的n次方
+def n_power(num,n):
+    if n ==1 :
+        return num
+    if n == 2:
+        return num**2
+    if n == -1:
+        return 1/num
+    if n ==-2:
+        return 1/(num**2)
+    n1 = n//2
+    n2 = n-n1
+    return n_power(num,n1)*n_power(num,n2)
 
+if __name__ == "__main__":
+    print(n_power(2,-3))
+    print(n_power(2,3))

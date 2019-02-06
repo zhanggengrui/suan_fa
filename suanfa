@@ -261,7 +261,7 @@ def int_to_bin(num):
     result = []
     if num ==0:
         return "0"
-    for i in range(64):   #长整型（long）是位
+    for i in range(64):   #长整型（long）是64位
         if num == 0 :
             break
         remain = num%2

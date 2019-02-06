@@ -255,6 +255,37 @@ def count_one_2(num):
 if __name__ =="__main__":
     print(count_one_2(7))
 
+======================================================================================
+# 十进制转换成二进制
+def int_to_bin(num):
+    result = []
+    if num ==0:
+        return "0"
+    for i in range(64):   #长整型（long）是位
+        if num == 0 :
+            break
+        remain = num%2
+        num = num//2
+        result.append(remain)
+    return "".join(result[::-1])
+    
+# 十进制转换成十六进制
+def int_to_hex(num):
+    result = []
+    if num ==0:
+        return "0"
+    for i in range(64):
+        if num == 0:
+            break
+        remain = num%16
+        num = num//16
+        if remain<10:
+            result.append(chr(remain+ord('0')))
+        else:
+            result.append(chr(remain-10+ord("A")))
+    return ''.join(result)
 
+if __name__ =="__main__":
+    print(int_to_hex(15))
 
 

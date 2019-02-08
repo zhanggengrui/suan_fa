@@ -55,7 +55,10 @@ if __name__ =="__main__":
     def creat_graph(self):
         for i in range(self.n):
             for j in range(self.n):
-                self.graph[i][j] = 1
+                if i == j :
+                    self.graph[i][j] = 0
+                else:
+                    self.graph[i][j] = 1
         self.graph[3][5] = 0
         self.graph[5][3] = 0
         for i in range(self.n):
@@ -65,11 +68,11 @@ if __name__ =="__main__":
         self.visited[start] = True
         self.combination = self.combination + str(self.arr[start])
         if len(self.combination) == self.n:
-            if self.combination[2] =="4":
+            if self.combination[2] !="4":
                 self.sets.add(self.combination)
-                #self.combination = self.combination[:-1]
-                #self.visited[start] = False
-                #return                   如果这边只有一个return，那么最后一个无法取消标记，因为返回后再次直接进入循环
+                self.combination = self.combination[:-1]
+                self.visited[start] = False
+                return                  # 如果这边只有一个return，那么最后一个无法取消标记，因为返回后再次直接进入循环
         for i in range(self.n):
             if self.visited[i] == False and self.graph[start][i] == 1:
                 self.dfs(i)

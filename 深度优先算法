@@ -42,3 +42,52 @@ if __name__ =="__main__":
     for i in mat:
         print(i)
  ============================================================================================
+ #书P257
+ class Test():
+    def __init__(self,arr):
+        self.arr = arr
+        self.n = len(arr)
+        self.visited = [False]*self.n
+        self.graph = [[None for i in range(self.n)] for j in range(self.n)]
+        self.combination = ''
+        self.sets = set()
+
+    def creat_graph(self):
+        for i in range(self.n):
+            for j in range(self.n):
+                self.graph[i][j] = 1
+        self.graph[3][5] = 0
+        self.graph[5][3] = 0
+        for i in range(self.n):
+            self.dfs(i)
+
+    def dfs(self,start):
+        self.visited[start] = True
+        self.combination = self.combination + str(self.arr[start])
+        if len(self.combination) == self.n:
+            if self.combination[2] =="4":
+                self.sets.add(self.combination)
+                #self.combination = self.combination[:-1]
+                #self.visited[start] = False
+                #return                   如果这边只有一个return，那么最后一个无法取消标记，因为返回后再次直接进入循环
+        for i in range(self.n):
+            if self.visited[i] == False and self.graph[start][i] == 1:
+                self.dfs(i)
+        self.combination = self.combination[:-1]
+        self.visited[start] = False
+        return
+
+    def print_sets(self):
+        print(len(self.sets))
+        for strs in self.sets:
+            print(strs)
+
+
+if __name__ =="__main__":
+    arr = [1,2,2,3,4,5]
+    t = Test(arr)
+    t.creat_graph()
+    t.print_sets()
+
+ 
+ 

@@ -1,0 +1,59 @@
+#Dijkstra算法：
+#Dijkstra算法用于在一个图中，计算某一个节点（起点）到其他节点的最短距离。
+#Dijkstra算法大致思路：在未被确定的节点中，寻找距离起点节点最近的节点，并将此节点标记为确定；再利用此节点更新其它未被标记的节点到起点的距离
+
+size = 7          # 图的大小（比节点数多一个，因为没有节点0）
+node_number = 6   # 顶点个数（节点1-节点6）
+edge_number = 8   # 边个数
+INFINITE = 99999  # 无穷大
+
+Graph_Matrix = [[None for i in range(size)] for j in range(size)] #存储距离的矩阵，如果两个节点相连，则数值为距离；如果两节点不相连，则为INFINITE
+distance = [0]*size  # 存储每个节点到起点节点的距离值（起点节点到自己的距离为0）
+
+# 填充距离矩阵
+def build_graph_matrix(path_cost):
+    for i in range(node_number+1):
+        for j in range(1,node_number+1):
+            if i == j:
+                Graph_Matrix[i][j] = 0   # 对角线为0，即每个节点到自己距离为0
+            else:
+                Graph_Matrix[i][j] = INFINITE
+    for i in range(edge_number):
+        Graph_Matrix[path_cost[i][0]][path_cost[i][1]] = path_cost[i][2]   #将距离填进去，其他为INFINITE
+
+def dijkstra(start,node_num):
+    chosen = [0]*size    # 表示某个节点到起点的距离是否已经被确定，被确定后改成1
+    for i in range(1,node_num+1):
+        distance[i] = Graph_Matrix[start][i]      #将每个节点到起点的距离填入
+        chosen[i] = 0
+    chosen[start] = 1                 # 起点标记为1
+    distance[start] = 0               # 起点到自己的距离为0
+    shortest_node = 1
+    # 寻找未被确定的点中，到起点最短的点
+    for i in range(1,node_num+1):
+        shortest_distance = INFINITE
+        for j in range(1,node_num+1):
+            if chosen[j] == 0 and shortest_distance > distance[j]:
+                shortest_distance = distance[j]
+                shortest_node = j
+        chosen[shortest_node] = 1               # 这个最近的点被确定了，因为不存在其他节点到起点的距离更短
+
+        # 利用这个被确定的点，更新其他未被确定的点到起点的距离
+        for k in range(1,node_num+1):
+            if chosen[k] == 0 and distance[k] > Graph_Matrix[shortest_node][k] + distance[shortest_node]:
+                distance[k] = Graph_Matrix[shortest_node][k] + distance[shortest_node]
+
+
+
+if __name__ =="__main__":
+    path_cost = [[1,2,29],
+                 [2,3,30],
+                 [2,4,35],
+                 [3,5,28],
+                 [3,6,87],
+                 [4,5,42],
+                 [4,6,75],
+                 [5,6,97]]
+    build_graph_matrix(path_cost)
+    dijkstra(1,6)
+    print(distance)

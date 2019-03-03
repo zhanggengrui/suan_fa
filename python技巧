@@ -1,0 +1,90 @@
+str_1 = "123"
+str_2 = "Abc"
+str_3 = "123Abc"
+
+#用isdigit函数判断是否数字
+print(str_1.isdigit())
+Ture
+print(str_2.isdigit())
+False
+print(str_3.isdigit())
+False
+
+#用isalpha判断是否字母
+print(str_1.isalpha())    
+False
+print(str_2.isalpha())
+Ture    
+print(str_3.isalpha())    
+False
+
+#isalnum判断是否数字和字母的组合
+print(str_1.isalnum())    
+Ture
+print(str_2.isalnum())
+Ture
+print(str_1.isalnum())    
+Ture
+
+
+
+
+扩展用法：
+1.Key Function：
+从Python2.4开始，list.sort() 和 sorted() 都增加了一个 ‘key’ 参数用来在进行比较之前指定每个列表元素上要调用的函数。
+
+例如：
+
+区分大小写的字符串比较排序：
+
+>>> sorted("This is a test string from Andrew".split(), key=str.lower)
+['a', 'Andrew', 'from', 'is', 'string', 'test', 'This']
+key应该是一个函数，其接收一个参数，并且返回一个用于排序依据的key。其执行效率很高，因为对于输入记录key function能够准确的被调用。
+
+对于复杂的对象，使用对象的下标作为key。
+例如：
+
+
+>>> student_tuples = [
+...     ('john', 'A', 15),
+...     ('jane', 'B', 12),
+...     ('dave', 'B', 10),
+... ]
+>>> sorted(student_tuples, key=lambda student: student[2])   # sort by age
+[('dave', 'B', 10), ('jane', 'B', 12), ('john', 'A', 15)]
+
+使用对象的属性进行操作：
+例如：
+
+
+>>> class Student:
+...     def __init__(self, name, grade, age):
+...         self.name = name
+...         self.grade = grade
+...         self.age = age
+...     def __repr__(self):
+...         return repr((self.name, self.grade, self.age))
+>>>
+>>> student_objects = [
+...     Student('john', 'A', 15),
+...     Student('jane', 'B', 12),
+...     Student('dave', 'B', 10),
+... ]
+>>> sorted(student_objects, key=lambda student: student.age)   # sort by age
+[('dave', 'B', 10), ('jane', 'B', 12), ('john', 'A', 15)]
+复制代码
+ 
+
+前段时间遇到这种情况，那就是列表里面每一个元素不止一个元素（比如：列表里面，元素为元祖类型），我们除了想对第一个关键字排序之外，还想在第一次的基础上面根据第二个关键字进行排序，正好是用到的这种方法：
+
+简化出一个例子：
+
+我们想先排序列表list中元素的第一个关键字，然后在第一个元素的基础上排序按第二个关键字进行排序，看结果：
+
+1
+2
+3
+>>> list = [('d',3),('a',5),('d',1),('c',2),('d',2)]
+>>> print sorted(list, key = lambda x:(x[0],x[1]))
+[('a', 5), ('c', 2), ('d', 1), ('d', 2), ('d', 3)]
+ 

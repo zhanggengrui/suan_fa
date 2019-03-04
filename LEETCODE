@@ -71,3 +71,62 @@ class Solution:
         h.next = None
 
         return head
+========================================================================================================
+一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为“Start” ）。
+
+机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为“Finish”）。
+
+问总共有多少条不同的路径？
+
+例如，上图是一个7 x 3 的网格。有多少可能的路径？
+说明：m 和 n 的值均不超过 100。
+
+示例 1:
+输入: m = 3, n = 2
+输出: 3
+解释:
+从左上角开始，总共有 3 条路径可以到达右下角。
+1. 向右 -> 向右 -> 向下
+2. 向右 -> 向下 -> 向右
+3. 向下 -> 向右 -> 向右
+
+示例 2:
+输入: m = 7, n = 3
+输出: 28
+
+解法一（回溯递归）：
+class Solution:
+    def uniquePaths(self, m: int, n: int) -> int:
+        if m == 0 or n == 0:
+            return 0
+        i = 0
+        j = 0
+        count = [] 
+        # count = 0        如果count=0，将返回0，使用count=[]，将返回正常值
+        self.dfs(m, n, i, j, count)
+        return sum(count)
+        # return count
+
+    def dfs(self, m, n, i, j, count):
+        if i == m - 1 and j == n - 1:
+            count.append(1)
+            return
+        if i + 1 < m:
+            self.dfs(m, n, i + 1, j, count)
+        if j + 1 < n:
+            self.dfs(m, n, i, j + 1, count)
+  解法二：（动态规划）
+  class Solution(object):
+    def uniquePaths(self, m, n):
+        """
+        :type m: int
+        :type n: int
+        :rtype: int
+        """
+        if m == 0 or n == 0:
+            return 0
+        mat = [[1 for i in range(n)] for j in range(m)]
+        for i in range(1,m):
+            for j in range(1,n):
+                mat[i][j] = mat[i-1][j]+mat[i][j-1]
+        return mat[m-1][n-1]

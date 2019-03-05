@@ -111,3 +111,10 @@ print(st0.split('i'))
 >>> str.split("[")[1].split("]")[0].split(".")
 ['www', 'doiido', 'com']
 
+list=['1','2','3','4','5']
+print(''.join(list))
+结果：12345
+
+seq = {'hello':'nihao','good':2,'boy':3,'doiido':4}
+print('-'.join(seq))        #字典只对键进行连接
+结果：hello-good-boy-doiid

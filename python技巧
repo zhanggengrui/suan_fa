@@ -98,3 +98,16 @@ d[3] = 'd'
 d[9] = 'b'
 sorted_key = sorted(d.items(),key=lambda x:x[0])  #[(2, 'a'), (3, 'd'), (4, 'x'), (9, 'b')]
 sorted_val = sorted(d.items(),key=lambda x:x[1])  #[(2, 'a'), (9, 'b'), (3, 'd'), (4, 'x')]
+
+st0= 'iisongiiihuaniiiigongi'
+print(st0.split('i'))
+结果为：
+['', '', 'song', '', '', 'huan', '', '', '', 'gong', '']
+
+
+>>> str="hello boy<[www.doiido.com]>byebye"
+>>> str.split("[")[1].split("]")[0]
+'www.doiido.com'
+>>> str.split("[")[1].split("]")[0].split(".")
+['www', 'doiido', 'com']
+

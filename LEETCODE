@@ -213,3 +213,38 @@ class Solution:
             elif res:
                 res.pop()
         return '/' + '/'.join(res)
+===========================================================================================================
+LEETCODE 86
+给定一个链表和一个特定值 x，对链表进行分隔，使得所有小于 x 的节点都在大于或等于 x 的节点之前。
+你应当保留两个分区中每个节点的初始相对位置。
+
+示例:
+输入: head = 1->4->3->2->5->2, x = 3
+输出: 1->2->2->4->3->5
+
+解答
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def partition(self, head: ListNode, x: int) -> ListNode:
+        link1 = ListNode(None)
+        link2 = ListNode(None)
+        cur1 = link1 #存小于x的
+        cur2 = link2 #存大于等于x的
+        cur = head
+        while cur!=None:
+            if cur.val <x:
+                cur1.next = cur
+                cur1 = cur1.next
+                cur = cur.next
+            elif cur.val >= x:
+                cur2.next = cur
+                cur2 = cur2.next
+                cur = cur.next
+        cur1.next = link2.next
+        cur2.next = None
+        return link1.next

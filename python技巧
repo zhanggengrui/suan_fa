@@ -118,3 +118,5 @@ print(''.join(list))
 seq = {'hello':'nihao','good':2,'boy':3,'doiido':4}
 print('-'.join(seq))        #字典只对键进行连接
 结果：hello-good-boy-doiid
+==================================================================
+c.isdigit():

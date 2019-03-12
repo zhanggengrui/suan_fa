@@ -1,3 +1,71 @@
+LEETCODE 23
+合并 k 个排序链表，返回合并后的排序链表。请分析和描述算法的复杂度。
+
+示例:
+输入:
+[
+  1->4->5,
+  1->3->4,
+  2->6
+]
+输出: 1->1->2->3->4->4->5->6
+
+解答：
+方法一：分治递归
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+	def mergeKLists(self, lists: 'List[ListNode]') -> 'ListNode': 
+		le = len(lists)
+		if not le: return
+		elif le == 1: 
+			return lists[0]
+		else:
+			return self.merge_unit(self.mergeKLists(lists[:le // 2]),self.mergeKLists(lists[le // 2:]))	 #分治递归
+            
+	def merge_unit(self, head1: 'ListNode', head2: 'ListNode') -> 'ListNode':
+		'''合并两个链表'''
+		
+		phead = ListNode(0)
+		probe = phead
+		while head1 and head2:
+			if head1.val < head2.val:
+				probe.next = head1
+				head1 = head1.next
+			else:
+				probe.next = head2
+				head2 = head2.next
+			
+			probe = probe.next
+		probe.next = head2 if not head1 else head1
+		return phead.next
+解法二：暴力法
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def mergeKLists(self, lists):
+        values = []
+        for head in lists:
+            while head!=None:
+                values.append(head.val)
+                head = head.next
+        values.sort()
+        head = ListNode(None)
+        cur = head
+        for val in values:
+            newnode = ListNode(val)
+            cur.next = newnode
+            cur  = cur.next
+        return head.next
+==================================================================================
 leetcode 56
 给出一个区间的集合，请合并所有重叠的区间。
 

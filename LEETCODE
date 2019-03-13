@@ -66,6 +66,41 @@ class Solution:
             cur  = cur.next
         return head.next
 ==================================================================================
+LEETCODE 32 
+给定一个只包含 '(' 和 ')' 的字符串，找出最长的包含有效括号的子串的长度。
+
+示例 1:
+输入: "(()"
+输出: 2
+解释: 最长有效括号子串为 "()"
+
+示例 2:
+输入: ")()())"
+输出: 4
+解释: 最长有效括号子串为 "()()"
+
+解答
+class Solution(object):
+    def longestValidParentheses(self, s):
+        if not s or len(set(s)) == 1:
+            return 0
+        stack = []
+        for idx in range(len(s)):
+            val = s[idx]
+            if stack and stack[-1][1] == '(' and val == ')':  # 有点像消消乐！！！
+                stack.pop()
+            else:
+                stack.append((idx, val)) # 在栈里面存元组
+        stack.insert(0, (-1, None))
+        stack.append((len(s), None))
+        res = 0
+        for i in range(1, len(stack)):
+            lg = stack[i][0] - stack[i-1][0] - 1
+            if lg > res:
+                res = lg
+        return res
+
+=====================================================================================
 leetcode 56
 给出一个区间的集合，请合并所有重叠的区间。
 
@@ -487,4 +522,4 @@ class Solution(object):
                 times_ = times_stack.pop()
                 chars_stack.append(times_*"".join(n_chars[::-1]))  # 要记得反过来，还要再放入字母栈中
         return "".join(chars_stack)
-        
+ ==============================================================================================       

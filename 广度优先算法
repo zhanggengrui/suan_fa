@@ -1,0 +1,37 @@
+给定一个带有括号和字母的字符串，移除最少量的括号，从而使得这个字符串变为有效的字符串，并返回所有有效的字符串
+
+例子：
+输入:
+"(a)(b))()"
+输出：
+"(a)(b)()" 和 "(a(b))()"
+
+解答：
+class Solution:
+    def bfs(self,strs):
+        queue = [strs] # bfs队列
+        res = []
+        while len(queue)!= 0:
+            for cur in queue:     #查找当前队列里面有没有合法字符串
+                if self.is_valid(cur): #假如有合法字符串，就将他假如res
+                    res.append(cur)
+            if len(res)>0:
+                return list(set(res))  #如果当前队列you合法字符串，就不在进行下一层的遍历；
+            tmp = []
+            for s in queue:
+                for i in range(len(s)):
+                    if s[i] =="(" or s[i] == ")":
+                        tmp.append(s[:i]+s[i+1:])
+            queue = list(set(tmp))
+        return list(set(res))
+
+    def is_valid(self,s):
+        cnt = 0
+        for i in s:
+            if i =="(":
+                cnt+=1
+            elif i==")":
+                cnt-=1
+            if cnt<0:
+                return False
+        return cnt == 0

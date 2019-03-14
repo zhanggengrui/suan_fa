@@ -522,4 +522,45 @@ class Solution(object):
                 times_ = times_stack.pop()
                 chars_stack.append(times_*"".join(n_chars[::-1]))  # 要记得反过来，还要再放入字母栈中
         return "".join(chars_stack)
- ==============================================================================================       
+ ==============================================================================================  
+ LEETCODE 37
+编写一个程序，通过已填充的空格来解决数独问题。
+
+一个数独的解法需遵循如下规则：
+数字 1-9 在每一行只能出现一次。
+数字 1-9 在每一列只能出现一次。
+数字 1-9 在每一个以粗实线分隔的 3x3 宫内只能出现一次。
+空白格用 '.' 表示。
+
+Note:
+给定的数独序列只包含数字 1-9 和字符 '.' 。
+你可以假设给定的数独只有唯一解。
+给定数独永远是 9x9 形式的。
+解答：
+class Solution:
+    def solveSudoku(self, board):
+        def check(x, y, s):
+            for i in range(9):
+                if board[i][y] == s or board[x][i] == s:
+                    return False
+            for i in [0, 1, 2]:
+                for j in [0, 1, 2]:
+                    if board[x // 3 * 3 + i][y // 3 * 3 + j] == s:
+                        return False
+            return True
+
+        def bt(cur):
+            if cur == 81:
+                return True
+            x, y = cur // 9, cur % 9
+            if board[x][y] != '.':
+                return bt(cur + 1)
+            for i in range(1, 10):
+                s = str(i)
+                if check(x, y, s):
+                    board[x][y] = s
+                    if bt(cur + 1):
+                        return True
+                    board[x][y] = '.'
+            return False
+        bt(0)

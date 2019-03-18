@@ -317,6 +317,62 @@ class Solution:
                 res.pop()
         return '/' + '/'.join(res)
 ===========================================================================================================
+LEETCODE 72
+给定两个单词 word1 和 word2，计算出将 word1 转换成 word2 所使用的最少操作数 。
+你可以对一个单词进行如下三种操作：
+插入一个字符
+删除一个字符
+替换一个字符
+
+示例 1:
+输入: word1 = "horse", word2 = "ros"
+输出: 3
+解释: 
+horse -> rorse (将 'h' 替换为 'r')
+rorse -> rose (删除 'r')
+rose -> ros (删除 'e')
+示例 2:
+输入: word1 = "intention", word2 = "execution"
+输出: 5
+解释: 
+intention -> inention (删除 't')
+inention -> enention (将 'i' 替换为 'e')
+enention -> exention (将 'n' 替换为 'x')
+exention -> exection (将 'n' 替换为 'c')
+exection -> execution (插入 'u')
+
+解法：
+解法
+我们使用一个二维数组dp来记录从word1到word2的修改步骤，dp[i][j]对应的是从word1[0...i]到word[0...j]
+Boundary
+从空字符串转换到任意字符串和从任意字符串抓换到空串的操作次数都为改任意字符串的长度（n次插入或n次删除）
+dp[i][0] = i;
+dp[0][j] = j;
+Regular
+我们使用一个二维数组dp来记录从word1到word2的修改步骤，dp[i][j]对应的是从word1[0...i]到word[0...j]，对应每一种修改方式我们都有不同的状态转移方程
+replace: dp[i - 1][j - 1] + 1 //保留从word1[0 ... i-1]转变到word2[0 ... j-1]的次数，再加一，加一指的是本次的修改
+insert: dp[i][j - 1] + 1 // 保留从word1[0 ... i]转变到word2[0 ... j-1]的次数，加一
+delete: dp[i - 1][j] + 1// 保留从word1[0 ... i-1]转变到word2[0 ... j]的次数，加一
+对于替换替换还是删除，我们选其中最小的值
+
+解答：
+class Solution:
+    def minDistance(self, word1, word2):
+        m = len(word1)
+        n = len(word2)
+        dp = [[ 0 for i in range(n+1)] for j in range(m+1)]
+        for i in range(m+1):
+            dp[i][0] = i
+        for j in range(n+1):
+            dp[0][j] = j
+        for i in range(1,m+1):
+            for j in range(1,n+1):
+                if word1[i-1] == word2[j-1]:
+                    dp[i][j] = min(dp[i-1][j-1],dp[i][j-1]+1,dp[i-1][j]+1)
+                else:
+                    dp[i][j] = min(dp[i-1][j-1]+1,dp[i][j-1]+1,dp[i-1][j]+1)
+        return dp[-1][-1]
+===========================================================================================================
 LEETCODE 86
 给定一个链表和一个特定值 x，对链表进行分隔，使得所有小于 x 的节点都在大于或等于 x 的节点之前。
 你应当保留两个分区中每个节点的初始相对位置。

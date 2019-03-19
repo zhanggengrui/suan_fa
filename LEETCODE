@@ -373,6 +373,41 @@ class Solution:
                     dp[i][j] = min(dp[i-1][j-1]+1,dp[i][j-1]+1,dp[i-1][j]+1)
         return dp[-1][-1]
 ===========================================================================================================
+LEETCODE 76 
+给定一个字符串 S 和一个字符串 T，请在 S 中找出包含 T 所有字母的最小子串。
+
+示例：
+输入: S = "ADOBECODEBANC", T = "ABC"
+输出: "BANC"
+说明：
+如果 S 中不存这样的子串，则返回空字符串 ""。
+如果 S 中存在这样的子串，我们保证它是唯一的答案。
+
+解答：
+from collections import defaultdict
+class Solution:
+    def minWindow(self, s, t) :
+        d = defaultdict(int)
+        for c in t:
+            d[c]+=1
+        min_l, min_r = 0,float('inf')
+        l , r = 0,0
+        cur_length = len(t)
+        for r ,c in enumerate(s):
+            if d[c]>0:
+                cur_length -=1
+            d[c] -=1
+            if cur_length == 0:
+                while d[s[l]]<0:    # 当d[s[l]]<0时，说明当前左节点是多余，左节点可以右移
+                    d[s[l]] += 1    # 因为当当d[s[l]]<0时，说明当前的左节点的字母要不就是没有出现在t中
+                    l+=1            # 要不就是重复了
+                if min_r - min_l > r-l:
+                    min_l, min_r = l, r
+                d[s[l]] += 1        # 目前的窗口内字符串符合要求
+                cur_length += 1     # 现在把窗口左侧右移一步，并把左侧的字符加回去
+                l += 1
+        return '' if min_r == float('inf') else s[min_l:min_r + 1]
+===========================================================================================================
 LEETCODE 86
 给定一个链表和一个特定值 x，对链表进行分隔，使得所有小于 x 的节点都在大于或等于 x 的节点之前。
 你应当保留两个分区中每个节点的初始相对位置。

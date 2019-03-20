@@ -9,4 +9,33 @@
 （2）.当a < b 时，则将从当前栈顶位置向前查找（边查找，栈顶元素边出栈），直到找到第一个比a小的数，停止查找，将元素a插入栈顶
     （在当前找到的数之后，即此时元素a找到了自己的“位置”）
 
+==============================================================================================================
+LEETCODE 84
+给定 n 个非负整数，用来表示柱状图中各个柱子的高度。每个柱子彼此相邻，且宽度为 1 。
+求在该柱状图中，能够勾勒出来的矩形的最大面积。
 
+以上是柱状图的示例，其中每个柱子的宽度为 1，给定的高度为 [2,1,5,6,2,3]。
+图中阴影部分为所能勾勒出的最大矩形面积，其面积为 10 个单位。
+
+示例:
+输入: [2,1,5,6,2,3]
+输出: 10
+
+解答：
+class Solution:
+    def largestRectangleArea(self, heights):
+        heights.append(0)                                                          # 加一个0，这样就可以触发最后的递增栈
+        stack = []
+        max_size = 0
+        i = 0
+        while i <len(heights):
+            if len(stack) == 0 or heights[i] >= heights[stack[-1]]:
+                stack.append(i)
+                i+=1
+            else:
+                peak_index = stack.pop()
+                if len(stack) == 0:
+                    max_size  = max(max_size,i*heights[peak_index])
+                else:
+                    max_size = max(max_size,(i-stack[-1]-1)*heights[peak_index])   # stack[-1]是左面第一个比peak_index的数
+        return max_size

@@ -579,6 +579,97 @@ class Solution(object):
        return ans
 
 =========================================================================================================
+LEETCODE 97
+给定三个字符串 s1, s2, s3, 验证 s3 是否是由 s1 和 s2 交错组成的。
+
+示例 1:
+输入: s1 = "aabcc", s2 = "dbbca", s3 = "aadbbcbcac"
+输出: true
+示例 2:
+输入: s1 = "aabcc", s2 = "dbbca", s3 = "aadbbbaccc"
+输出: false
+
+解法一：暴力递归，会超时
+class Solution:
+    def isInterleave(self, s1, s2, s3):
+        if len(s1)+len(s2) != len(s3):
+            return False
+        else:
+            return self.check(s1,s2,s3)
+
+    def check(self,s1,s2,s3):
+        if len(s1) == 0 :
+            if s2 == s3:
+                return True
+            else:
+                return False
+        if len(s2) == 0:
+            if s1 == s3:
+                return True
+            else:
+                return False
+        if s1[0] == s2[0] == s3[0]:
+            return self.check(s1[1:],s2,s3[1:]) or self.check(s1,s2[1:],s3[1:])
+        elif s1[0] == s3[0]:
+            return self.check(s1[1:],s2,s3[1:])
+        elif s2[0] == s3[0]:
+            return self.check(s1, s2[1:], s3[1:])
+        else:
+            return False
+	    
+解法二：字典+递归：可以进行对递归进行剪枝
+class Solution:
+    def isInterleave(self, s1, s2, s3):
+        if len(s3) != len(s1) + len(s2): return False
+        cache = {}
+
+        def helper(i, j, cache):
+            if (i, j) in cache:  # 如果递归变量之前计算过，直接调用返回cache[(i, j)]
+                # print("1")
+                return cache[(i, j)]
+            else:  # 如果递归变量没有计算过，则在下面进行计算
+                if i == len(s1) or j == len(s2):  # 与普通递归一样，这里是边界（只不过分成两种情况）
+                    if i == len(s1):
+                        cache[(i, j)] = s2[j:] == s3[len(s1) + j:]
+                    elif j == len(s2):
+                        cache[(i, j)] = s1[i:] == s3[i + len(s2):]
+                else:  # 在这下面进行递归计算
+                    if (s1[i] == s3[i + j]) and helper(i + 1, j, cache):
+                        cache[(i, j)] = True
+                    elif (s2[j] == s3[i + j]) and helper(i, j + 1, cache):
+                        cache[(i, j)] = True
+                    else:
+                        cache[(i, j)] = False
+                return cache[(i, j)]  # 返回cache[(i, j)]
+
+        return helper(0, 0,cache)
+	
+解法三：动态规划
+class Solution:
+    def isInterleave(self, s1, s2, s3):
+        if len(s1)+len(s2) != len(s3):
+            return False
+        mat = [[0 for i in range(len(s2)+1)] for j in range(len(s1)+1)]
+        mat [0][0]=1
+        for i in range(1,len(s2)+1):
+            if s2[i-1] == s3[i-1]:
+                mat[0][i] = 1
+            else:
+                break
+        for i in range(1,len(s1)+1):
+            if s1[i-1] == s3[i-1]:
+                mat[i][0] = 1
+            else:
+                break
+        for i in range(1,len(s1)+1):
+            for j in range(1,len(s2)+1):
+                if mat[i-1][j] == 1 and s1[i-1] == s3[i+j-1]:
+                    mat[i][j] = 1
+                elif mat[i][j-1] == 1 and s2[j-1] == s3[i+j-1]:
+                    mat[i][j] = 1
+        return mat[-1][-1] ==1
+=========================================================================================================
+
 给定一个经过编码的字符串，返回它解码后的字符串。
 编码规则为: k[encoded_string]，表示其中方括号内部的 encoded_string 正好重复 k 次。注意 k 保证为正整数。
 你可以认为输入字符串总是有效的；输入字符串中没有额外的空格，且输入的方括号总是符合格式要求的。

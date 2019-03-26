@@ -814,3 +814,60 @@ class Solution:
                 end = max(intervals[i].end,end)
         res.append([start,end])         # 最后一个别忘了加进去
         return res
+========================================================================================================
+LEETCODE 101
+给定一个二叉树，检查它是否是镜像对称的。
+
+例如，二叉树 [1,2,2,3,4,4,3] 是对称的。
+
+    1
+   / \
+  2   2
+ / \ / \
+3  4 4  3
+但是下面这个 [1,2,2,null,3,null,3] 则不是镜像对称的:
+
+    1
+   / \
+  2   2
+   \   \
+   3    3
+   
+解法1：（递归法）
+class Solution:
+    def isSymmetric(self, root):
+        return self.di_gui(root,root)
+    
+    def di_gui(self,root1,root2):
+        if root1 == None and root2 == None:
+            return True
+        if root1== None or root2 == None:
+            return False
+        return root1.val == root2.val and self.di_gui(root1.left,root2.right) and self.di_gui(root1.right,root2.left)
+
+解法2（层序遍历法）：
+class Solution:
+    def isSymmetric(self, root):
+        if root == None:
+            return True
+        roots = [root]
+        while len(roots)!= 0:
+            vals = []
+            n_roots = []
+            while len(roots)!= 0:
+                cur_root = roots.pop()
+                if cur_root.left != None:
+                    vals.append(cur_root.left.val)
+                    n_roots.append(cur_root.left)
+                else:
+                    vals.append(None)
+                if cur_root.right != None:
+                    vals.append(cur_root.right.val)
+                    n_roots.append(cur_root.right)
+                else:
+                    vals.append(None) 
+            roots = n_roots
+            if vals != vals[::-1]:
+                print(vals)
+                return False
+        return True

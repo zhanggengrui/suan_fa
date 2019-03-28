@@ -903,3 +903,35 @@ class Solution:
         root.left = self.buildTree(left_inorder,left_postorder)
         root.right = self.buildTree(right_inorder,right_postorder)
         return root
+=====================================================================================================
+LEETCODE 109
+给定一个单链表，其中的元素按升序排序，将其转换为高度平衡的二叉搜索树。
+本题中，一个高度平衡二叉树是指一个二叉树每个节点 的左右两个子树的高度差的绝对值不超过 1。
+
+示例:
+给定的有序链表： [-10, -3, 0, 5, 9],
+一个可能的答案是：[0, -3, 9, -10, null, 5], 它可以表示下面这个高度平衡二叉搜索树：
+      0
+     / \
+   -3   9
+   /   /
+ -10  5
+
+解答：双指针（找中点）+递归
+class Solution:
+    def sortedListToBST(self, head):
+        if head == None:
+            return None
+        return self.recrutive(head, None)
+         
+    def recrutive(self, begin, end):
+        fast = slow = begin
+        if begin == end:
+            return None
+        while fast!=end and fast.next!=end:
+            fast = fast.next.next
+            slow = slow.next         
+        root = TreeNode(slow.val)
+        root.left = self.recrutive(begin, slow)
+        root.right = self.recrutive(slow.next, end)
+        return root

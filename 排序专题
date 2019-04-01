@@ -1,4 +1,20 @@
-
+题目：给定一个数组arr和数num，将arr中小于num的数放在数组的左边，等于num的数放在中间，大于num的数放在右边：
+def partition1(arr,num,l,r):
+    less = l - 1
+    more = r + 1
+    cur = l
+    while cur < more:
+        if arr[cur] == num:
+            cur += 1
+        elif arr[cur] < num:
+            arr[cur] , arr[less+1] = arr[less+1], arr[cur]
+            cur += 1
+            less +=1
+        elif arr[cur] > num:
+            arr[cur] , arr[more-1] = arr[more-1] , arr[cur]
+            more -= 1
+    return arr
+==============================================================================================
 # 冒泡排序
 def bubble_sort(arr):
     lens = len(arr)
@@ -78,11 +94,11 @@ def quick_sort(arr,a,b):
     left =a
     right = b-1
     while left<=right:
-        while left<=right and arr[left]<=pivot:
+        while left<=right and arr[left]<pivot:
             left = left+1
-        while left<=right and arr[right]>=pivot:
+        while left<=right and arr[right]>pivot:
             right =right-1
-        while left<=right:
+        if left<=right:
             arr[left],arr[right] = arr[right],arr[left]
             left = left+1
             right = right-1

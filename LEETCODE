@@ -1045,3 +1045,40 @@ class Solution(object):
         while root.right:
             root = root.right
         root.right = tmp
+================================================================================
+leetcode 144
+================================================================================
+LEETCODE 145
+给定一个二叉树，返回它的 后序 遍历。
+
+示例:
+输入: [1,null,2,3]  
+   1
+    \
+     2
+    /
+   3 
+输出: [3,2,1]
+进阶: 递归算法很简单，你可以通过迭代算法完成吗？
+
+解析：
+对于后序遍历，调用root时，入栈的顺序如下：打印root.val(!=None), root.right(!=None), root.left
+对于stack,每次循环时先pop初栈顶，如果栈顶是val，则打印，如果栈顶是树节点，则继续入栈
+解答：
+class Solution:
+    def postorderTraversal(self, root):
+        if root == None:
+            return []
+        stack = [root]
+        res = []
+        while stack:
+            peak = stack.pop()
+            if type(peak) == int:
+                res.append(peak)
+            else:
+                stack.append(peak.val)
+                if peak.right != None:
+                    stack.append(peak.right)
+                if peak.left != None:
+                    stack.append(peak.left)
+        return res

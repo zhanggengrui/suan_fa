@@ -1047,6 +1047,36 @@ class Solution(object):
         root.right = tmp
 ================================================================================
 leetcode 144
+给定一个二叉树，返回它的 前序 遍历。
+
+ 示例:
+输入: [1,null,2,3]  
+   1
+    \
+     2
+    /
+   3 
+输出: [1,2,3]
+进阶: 递归算法很简单，你可以通过迭代算法完成吗？
+
+解答：
+class Solution:
+    def preorderTraversal(self, root):
+        if root == None:
+            return []
+        stack = [root]
+        res = []
+        while stack:
+            peak = stack.pop()
+            if type(peak) == int:
+                res.append(peak)
+            else:
+                if peak.right != None:
+                    stack.append(peak.right)
+                if peak.left != None:
+                    stack.append(peak.left)       
+                stack.append(peak.val)  
+        return res
 ================================================================================
 LEETCODE 145
 给定一个二叉树，返回它的 后序 遍历。

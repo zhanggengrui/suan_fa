@@ -86,7 +86,7 @@ if __name__ =="__main__":
     print(shell_sort(arr))
 
 ====================================================================================================
-#快速排序
+#快速排序（经典方法）
 def quick_sort(arr,a,b):
     if a>=b:
         return
@@ -110,8 +110,34 @@ if __name__ == "__main__":
     list = [2, 3, 1, 4, 3, 0]
     quick_sort(list,0,len(list)-1)
     print(list)
+    
+================================================================================================
+# 快速排序（加速方法） 经典法每次递归只确定一个位置（标准值），加速方法确定所有等于标准值的位置
+def quick_sort(arr,l,r):
+    if l >= r:
+        return
+    p = partition(arr,l,r)
+    quick_sort(arr,l,p[0])
+    quick_sort(arr,p[1],r)
+ 
+def partition(arr,l,r):
+    num = arr[r] # 默认以最后一个数作为基准
+    less = l - 1
+    more = r + 1
+    cur = l
+    while cur < more:
+        if arr[cur] == num:
+            cur += 1
+        elif arr[cur] < num:
+            arr[cur] , arr[less+1] = arr[less+1], arr[cur]
+            cur += 1
+            less += 1
+        elif arr[cur] > num:
+            arr[cur] , arr[more-1] = arr[more-1] , arr[cur]
+            more -= 1
+    return [less,more]
 
-============================================================================================================
+=============================================================================================
 # 归并排序
 def merge_sort(arr):
     if len(arr) == 1:

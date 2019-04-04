@@ -136,7 +136,34 @@ def partition(arr,l,r):
             arr[cur] , arr[more-1] = arr[more-1] , arr[cur]
             more -= 1
     return [less,more]
+=============================================================================================
+# 随机快排
+def quick_sort_3(arr,l,r):
+    import random
+    if l >= r:
+        return
+    index = random.randint(l, r) 
+    arr[index] , arr[r] = arr[r],arr[index] #随机选择一个数与最后一个数进行交换
+    p = partition2(arr,l,r)
+    quick_sort_3(arr,l,p[0])
+    quick_sort_3(arr,p[1],r)
 
+def partition2(arr,l,r):
+    num = arr[r] # 默认以最后一个数作为基准
+    less = l - 1
+    more = r + 1
+    cur = l
+    while cur < more:
+        if arr[cur] == num:
+            cur += 1
+        elif arr[cur] < num:
+            arr[cur] , arr[less+1] = arr[less+1], arr[cur]
+            cur += 1
+            less += 1
+        elif arr[cur] > num:
+            arr[cur] , arr[more-1] = arr[more-1] , arr[cur]
+            more -= 1
+    return [less,more]
 =============================================================================================
 # 归并排序
 def merge_sort(arr):

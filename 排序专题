@@ -203,29 +203,43 @@ if __name__ == "__main__":
 （2）归并排序的合并需要进行比较才能进行合并
 ===============================================================================================
 # 堆排序
-def build_heap(list,size):
-    for i in range(int(size/2)-1,-1,-1):    #最初建堆时，要从最后一个有子节点的位置开始往上调整
-        ad_heap(list,i,size)
+# 堆排序
+def heap_sort(arr):
+    if len(arr)<2 or arr == None:
+        return arr
+    for i in range(len(arr)):
+        heapinsert(arr,i)
+    heapsize = len(arr)
+    while heapsize >0 :
+        arr[0], arr[heapsize - 1] = arr[heapsize - 1], arr[0]  #将堆顶与堆尾交换，此时最大值归位
+        heapsize -= 1        # 堆的范围减一
+        heapify(arr,0,heapsize) # 将新范围的堆从堆顶开始调整
 
-def ad_heap(list,i,size):
-    left = 2*i+1
-    right= 2*i+2
-    maxs = i
-    if i < int(size/2):     #i要小于int(size/2),因为最下面一层没有子节点了，只有有子节点的节点才能进行调整
-        if left<size and list[left]>list[maxs]:
-            maxs = left
-        if right<size and list[right]>list[maxs]:
-            maxs = right
-        if maxs != i:
-            list[maxs],list[i] = list[i],list[maxs]
-            ad_heap(list,maxs,size)               #maxs位置的值被换了，所以要检查maxs位置是否满足条件
+# 建堆
+def heapinsert(arr,index):
+    while arr[index] > arr[int((index-1)/2)]:
+        arr[index],arr[int((index-1)/2)]=arr[int((index-1)/2)],arr[index]
+        index = int((index-1)/2)
 
-def heap_sort(list):
-    size = len(list)
-    build_heap(list,size)                       #自底向上调整
-    for i in range(size-1,-1,-1):
-        list[i],list[0] = list[0],list[i]
-        ad_heap(list,0,i)                        # 注意这里是调整0的位置，而且堆的size变小
+# index位置值改变了，要从index位置开始进行调整，
+def heapify(arr,index,heapsize):
+    left = 2*index+1    # 先要有左孩子
+    while left<heapsize:  # 如果左孩子越界了，说明已经是叶节点
+        right = left + 1     # 可能存在右孩子
+        if right<heapsize and arr[left]<arr[right]:
+            largest = right         #如果右孩子存在，且比左孩子大，则记录右节点
+        else:
+            largest = left          # 否则就是左节点大
+        if arr[index] < arr[largest]:
+            largest = largest
+        else:
+            largest = index
+        if largest == index:        # 如果该index节点比左右孩子的值都大，则停止调整break
+            break
+        else:
+            arr[largest],arr[index] = arr[index],arr[largest]        #将index与较大的孩子交换，再从交换的孩子处继续调整
+            index = largest
+            left = index*2+1
 
 if __name__ == "__main__":
     list = [2, 3, 1, 4, 3, 0,5,7]

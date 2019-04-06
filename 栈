@@ -1,3 +1,39 @@
+题目：利用固定长度数组首先栈
+class Array_Stack():
+    def __init__(self,size):
+        self.index = 0
+        self.arr = []
+        self.size = size
+
+    def built_stack(self):
+        if self.size <= 0:
+            return False
+        else:
+            self.arr = [None for _ in range(self.size)]
+
+    def peak(self):
+        if self.index == 0:
+            print("is EMPTY")
+            return False
+        else:
+            return self.arr[self.index-1]
+
+    def pop(self):
+        if self.index == 0:
+            print("is EMPTY")
+            return False
+        else:
+            self.index -= 1
+            return self.arr[self.index]
+    def push(self,x):
+        if self.index == self.size:
+            print("is FULL")
+            return False
+        else:
+            self.arr[self.index] = x
+            self.index += 1
+
+================================================================================================
 题目：有效的括号（leetcode 20）
 给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串，判断字符串是否有效。
 

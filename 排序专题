@@ -266,3 +266,36 @@ if __name__ == "__main__":
     list = [118,591,985,901,316,826,23,851,521,7]
     radix_sort(list)
     print(list)
+===============================================================================================
+给定一个数组，要求出如果排序后相邻两个数的最大差值，要求时间复杂度O（n），且不能使用排序方法：
+解答：
+import sys
+def MaxGap(arr):
+    if arr == None or len(arr) < 2:
+        return 0
+    lens = len(arr)
+    max_ = -sys.maxsize
+    min_ = sys.maxsize
+    for i in range(lens):
+        min_ = min(min_,arr[i])
+        max_ = max(max_,arr[i])
+    if min_ == max_:
+        return 0
+    hasNum = [False for _ in range(lens+1)]
+    maxs = [None for _ in range(lens+1)]
+    mins = [None for _ in range(lens+1)]
+    for i in range(lens):
+        box = in_box(arr[i],max_,min_,lens)
+        maxs[box] = max(maxs[box], arr[i]) if hasNum[box] else arr[i]
+        mins[box] = min(mins[box] , arr[i]) if hasNum[box] else arr[i]
+        hasNum[box] = True
+    res = 0
+    lastmax = maxs[0]
+    for i in range(1,lens+1):
+        if hasNum[i]:
+            res = max(res,mins[i]-lastmax)
+            lastmax = maxs[i]
+    return res
+
+def in_box(num,max,min,len):
+    return int((num-min)*(len)/(max-min))

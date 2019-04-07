@@ -32,7 +32,40 @@ class Array_Stack():
         else:
             self.arr[self.index] = x
             self.index += 1
+================================================================================================
+题目：利用固定长度数组实现队列
+class Array_Queue():
+    def __init__(self,size):
+        self.start = 0
+        self.end = 0
+        self.arr = []
+        self.cur_size = 0
+        self.size = size
 
+    def built_stack(self):
+        if self.size <= 0:
+            return False
+        else:
+            self.arr = [None for _ in range(self.size)]
+
+    def pop(self):
+        if self.cur_size == 0:
+            print("is EMPTY")
+            return False
+        else:
+            res = self.arr[self.start]
+            self.start = (self.start + 1) % self.size
+            self.cur_size -=1
+            return res
+
+    def push(self,x):
+        if self.cur_size == self.size:
+            print("is FULL")
+            return False
+        else:
+            self.arr[self.end] = x
+            self.end = (self.end+1)%self.size
+            self.cur_size += 1
 ================================================================================================
 题目：有效的括号（leetcode 20）
 给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串，判断字符串是否有效。

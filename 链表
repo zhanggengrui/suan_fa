@@ -68,6 +68,32 @@ class Solution(object):
         return None
 
 =================================================================================================================
+题目：
+判断一个链表是否为回文链表，要求空间复杂度为O（1）
+def IsPalindromeList(head):
+    if head == None or head.next == None:
+        return True
+    f = head
+    s = head
+    while f.next != None and f.next.next!= None:
+        f = f.next.next
+        s = s.next
+    mid = s #当链表为奇数时，s在正中间；当链表为偶数时，s在中间的前面一个节点
+    head2 = reverseList(mid)  # 反转以mid为头节点的链表
+    head1 = head
+    cur1 = head1
+    cur2 = head2
+    res = True
+    while cur1 != None and cur2 != None:   #两个链表有一个走完就停
+        if cur1.val != cur2.val :
+            res = False
+            return res
+        cur1 = cur1.next
+        cur2 = cur2.next
+    # 再恢复原链表
+    reverseList(head2)
+    return res
+=================================================================================================================
 LEETCODE 2
 题目：两数相加
 给出两个 非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，并且它们的每个节点只能存储 一位 数字。

@@ -1,3 +1,30 @@
+LEETCODE 206 反转链表
+解法一：三指针法：
+class Solution(object):
+    def reverseList(self, head):
+        if head == None or head.next == None:
+            return head
+        pre = head
+        cur = pre.next
+        nex = cur.next
+        while cur.next != None:
+            cur.next = pre
+            pre = cur 
+            cur = nex
+            nex = nex.next
+        cur.next = pre
+        head.next = None
+        return cur
+        
+ 解法二：双指针法
+ class Solution(object):
+    def reverseList(self, head):
+        pre, cur = None ,head
+        while cur != None:
+            cur.next,pre,cur = pre,cur,cur.next
+        return pre
+
+=================================================================================================================
 LEETCODE 141 环形链表
 给定一个链表，判断链表中是否有环。
 

@@ -32,9 +32,9 @@ class Solution(object):
         while f.next != None and f.next.next != None:
             f = f.next.next
             s = s.next
-            if f == s:
-                f = head
-                while f!=s:
+            if f == s:         # 当相遇以后
+                f = head       # f指针回到头结点，变成每次一步，
+                while f!=s:    # f和s同时走，再次相遇时，就是入环的第一个节点
                     f = f.next
                     s = s.next
                 return f

@@ -1,3 +1,22 @@
+题目：交换链表的两个节点node1,node2
+def swap_node(pre_node1,pre_node2):  #pre_node1 和pre_node2 分别是node1 和node2的前驱节点
+    if pre_node1.next == pre_node2:  # 两个相邻的时候是特殊情况
+        tmp1 = pre_node2.next
+        tmp2 = pre_node2.next.next
+        pre_node1.next = tmp1
+        tmp1.next = pre_node2
+        pre_node2.next = tmp2
+    else:
+        tmp1 = pre_node1.next
+        tmp2 = pre_node1.next.next
+        tmp3 = pre_node2.next
+        tmp4 = pre_node2.next.next
+        pre_node1.next = tmp3
+        tmp3.next = tmp2
+        pre_node2.next = tmp1
+        tmp1.next = tmp4
+
+=================================================================================================================
 LEETCODE 206 反转链表
 解法一：三指针法：
 class Solution(object):

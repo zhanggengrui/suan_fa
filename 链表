@@ -114,23 +114,38 @@ def copy_list_with_rand1(head):
     return d[head]
     
 解法二：时间(N),空间O(1)
-def copy_list_with_rand2(head):
-    cur = head
-    while cur != None:
-        tmp = cur.next
-        cur.next = ListNode(cur.val)
-        cur = cur.next
-        cur.next = tmp
-        cur = cur.next
-    cur = head
-    while cur != None:
-        nex = cur.next.next
-        copyright = cur.next
-        copyright.next = None if nex==None else nex.next      #用到.next的时候要注意区别是否是None
-        copyright.rand = None if cur.rand==None  else cur.rand.next
-        cur.next = nex
-        cur = nex
-    return head
+class Solution(object):
+    def copyRandomList(self, head):
+        """
+        :type head: Node
+        :rtype: Node
+        """
+        if head == None:
+            return None
+        cur = head
+        while cur != None:
+            tmp = cur.next
+            cur.next = Node(cur.val,None,None)
+            cur = cur.next 
+            cur.next = tmp
+            cur = cur.next
+        cur = head
+        res = head.next
+        # 先改random指针
+        while cur != None:
+            copyright = cur.next
+            nex = cur.next.next
+            copyright.random = None if cur.random == None else cur.random.next
+            cur = nex
+        cur = head
+        #再改next指针
+        while cur != None:
+            copyright = cur.next
+            nex = cur.next.next
+            cur.next =nex
+            copyright.next = None if nex == None else nex.next
+            cur = nex
+        return res
 
 =================================================================================================================
 LEETCODE 2

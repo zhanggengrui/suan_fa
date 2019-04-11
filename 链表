@@ -94,6 +94,45 @@ def IsPalindromeList(head):
     reverseList(head2)
     return res
 =================================================================================================================
+题目：复制一个含有rand指针的链表
+
+解法一：哈希表法 时间O（N）,空间O(N)
+def copy_list_with_rand1(head):
+    if head == None:
+        return None
+    d = dict()
+    cur = head
+    while cur!= None:
+        d[cur] = ListNode(cur.val)
+        cur = cur.next
+    d[None] = None
+    cur = head
+    while cur != None:
+        d[cur].next = d[cur.next]
+        d[cur].rand = d[cur.rand]
+        cur = cur.next
+    return d[head]
+    
+解法二：时间(N),空间O(1)
+def copy_list_with_rand2(head):
+    cur = head
+    while cur != None:
+        tmp = cur.next
+        cur.next = ListNode(cur.val)
+        cur = cur.next
+        cur.next = tmp
+        cur = cur.next
+    cur = head
+    while cur != None:
+        nex = cur.next.next
+        copyright = cur.next
+        copyright.next = None if nex==None else nex.next      #用到.next的时候要注意区别是否是None
+        copyright.rand = None if cur.rand==None  else cur.rand.next
+        cur.next = nex
+        cur = nex
+    return head
+
+=================================================================================================================
 LEETCODE 2
 题目：两数相加
 给出两个 非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，并且它们的每个节点只能存储 一位 数字。

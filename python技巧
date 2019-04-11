@@ -120,3 +120,10 @@ print('-'.join(seq))        #字典只对键进行连接
 结果：hello-good-boy-doiid
 ==================================================================
 c.isdigit():
+
+
+dict = {'Name': 'Zara', 'Age': 7, 'Class': 'First'};
+del dict['Name']; # 删除键是'Name'的条目
+dict.clear();     # 清空词典所有条目
+del dict ;        # 删除词典
+

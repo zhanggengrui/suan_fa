@@ -1,3 +1,18 @@
+LEETCODE 203 移除链表的元素
+解答：
+class Solution(object):
+    def removeElements(self, head, val):
+        prehead = ListNode(None)
+        prehead.next = head
+        cur = prehead
+        while  cur.next != None:
+            if cur.next.val == val:
+                cur.next = cur.next.next      # 链表增删操作之后不要动指针
+            else:
+                cur = cur.next
+        return prehead.next
+
+=================================================================================================================
 题目：交换链表的两个节点node1,node2
 def swap_node(pre_node1,pre_node2):  #pre_node1 和pre_node2 分别是node1 和node2的前驱节点
     if pre_node1.next == pre_node2:  # 两个相邻的时候是特殊情况

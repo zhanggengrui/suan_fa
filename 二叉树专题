@@ -19,6 +19,70 @@ class Solution(object):
             return 0
         return max(self.maxDepth(root.left) ,self.maxDepth(root.right) )+1
 ======================================================================================================================
+LEETCODE 110
+给定一个二叉树，判断它是否是高度平衡的二叉树。
+
+示例 1:
+给定二叉树 [3,9,20,null,null,15,7]
+
+    3
+   / \
+  9  20
+    /  \
+   15   7
+返回 true 。
+
+示例 2:
+给定二叉树 [1,2,2,3,3,null,null,4,4]
+
+       1
+      / \
+     2   2
+    / \
+   3   3
+  / \
+ 4   4
+返回 false 。
+
+解法1：
+class Solution(object):
+    def isBalanced(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        if root ==None:
+            return True
+        if abs(self.height(root.left) - self.height(root.right))>1:
+            return False
+        else:
+            return self.isBalanced(root.left) and self.isBalanced(root.right)
+        
+    def height(self,root):
+        if root ==None:
+            return 0
+        return max(self.height(root.left),self.height(root.right))+1
+        
+解法2：
+class Solution(object):
+    def isBalanced(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        return self.helper(root)[0]
+    
+    def helper(self,root):
+        if root == None:
+            return [True , 0]
+        l = self.helper(root.left)   # 先收集左、右子树的信息
+        r = self.helper(root.right)  
+        if abs(l[1] - r[1])>1:       # 再进行对左、右子树信息的整合和判断
+            return [False , 0]
+        else:
+            return [l[0] and r[0], max(l[1],r[1])+1]
+
+======================================================================================================================
 LEETCODE 129
 给定一个二叉树，它的每个结点都存放一个 0-9 的数字，每条从根到叶子节点的路径都代表一个数字。
 

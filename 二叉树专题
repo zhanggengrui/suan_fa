@@ -1,0 +1,33 @@
+LEETCODE 222
+给出一个完全二叉树，求出该树的节点个数。
+
+示例:
+
+输入: 
+    1
+   / \
+  2   3
+ / \  /
+4  5 6
+输出: 6
+
+解答：
+class Solution(object):
+    def countNodes(self, root):
+        if root == None:
+            return 0
+        left_height = self.mostleft_height(root.left)     # 求左子树的最左侧节点的深度
+        right_height = self.mostleft_height(root.right)   # 求右子树的最左侧节点的深度
+        if left_height == right_height:                   # 如果左子树和右子树的深度相同，说明左子树为满二叉树，右子树为完全二叉树
+            return (2**left_height + self.countNodes(root.right)) # 满二叉树的节点个数为（2**h - 1）
+        else:
+            return (2**right_height + self.countNodes(root.left))
+      
+    def mostleft_height(self,root):   # 求某棵树的最左侧节点的深度（完全二叉树最左侧节点的深度就是整棵树的深度）
+        if root ==None:
+            return 0
+        h = 0
+        while root != None:
+            h += 1
+            root = root.left
+        return h

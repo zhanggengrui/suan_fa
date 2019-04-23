@@ -1,3 +1,92 @@
+LEETCODE 129
+给定一个二叉树，它的每个结点都存放一个 0-9 的数字，每条从根到叶子节点的路径都代表一个数字。
+
+例如，从根到叶子节点路径 1->2->3 代表数字 123。
+计算从根到叶子节点生成的所有数字之和。
+说明: 叶子节点是指没有子节点的节点。
+
+示例 1:
+输入: [1,2,3]
+    1
+   / \
+  2   3
+输出: 25
+解释:
+从根到叶子节点路径 1->2 代表数字 12.
+从根到叶子节点路径 1->3 代表数字 13.
+因此，数字总和 = 12 + 13 = 25.
+
+示例 2:
+输入: [4,9,0,5,1]
+    4
+   / \
+  9   0
+ / \
+5   1
+输出: 1026
+解释:
+从根到叶子节点路径 4->9->5 代表数字 495.
+从根到叶子节点路径 4->9->1 代表数字 491.
+从根到叶子节点路径 4->0 代表数字 40.
+因此，数字总和 = 495 + 491 + 40 = 1026.
+
+解法1：
+class Solution(object):
+    def sumNumbers(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        if root == None:
+            return 0
+        res = []
+        cur = []
+        self.pre_order(root,cur,res)
+        #print(res)
+        result = 0
+        for i in res:
+            result += self.change(i)
+        return result
+    
+    def pre_order(self,root,cur,res):
+        cur.append(root.val)
+        if root.left == None and root.right == None:
+            res.append(cur[:])
+            return
+        if root.left != None:   
+            self.pre_order(root.left,cur,res)
+            cur.pop()
+        if root.right != None: 
+            self.pre_order(root.right,cur,res)
+            cur.pop()
+    
+    def change(self,arr):
+        lens = len(arr)
+        res = 0
+        for i in range(lens):
+            res += arr[i]*(10**(lens-i-1))
+        return res
+
+解法2：
+class Solution(object):
+    def sumNumbers(self, root):
+        self.res = 0
+        father = 0
+        self.dfs(root,father)
+        return self.res
+    
+    def dfs(self,root,father):  # father 代表当前节点的父节点所代表的数
+        if root == None:
+            return 
+        cur = father*10 + root.val  # cur 代表当前节点所代表的数
+        if root.left == None and root.right == None:  # 如果当前节点是叶子结点，则进行累加
+            self.res += cur
+            return 
+        self.dfs(root.left,cur)         # 否则遍历当前节点的左右子节点，左右子节点的father相应的是cur
+        self.dfs(root.right,cur)
+注意：
+本题目不能使用收集当前节点的左右子树信息的方式来解答，需要在每一个叶子结点处进行累加操作，所以递归函数不返回左右子树的信息
+======================================================================================================================
 LEETCODE 222
 给出一个完全二叉树，求出该树的节点个数。
 

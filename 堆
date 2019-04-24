@@ -1,4 +1,28 @@
+# 建堆
+def heapinsert(arr,index):
+    while arr[index] > arr[int((index-1)/2)]:
+        arr[index],arr[int((index-1)/2)]=arr[int((index-1)/2)],arr[index]
+        index = int((index-1)/2)
 
+# index位置值改变了，要从index位置开始进行调整，
+def heapify(arr,index,heapsize):
+    left = 2*index+1    # 先要有左孩子
+    while left<heapsize:  # 如果左孩子越界了，说明已经是叶节点
+        right = left + 1     # 可能存在右孩子
+        if right<heapsize and arr[left]<arr[right]:
+            largest = right         #如果右孩子存在，且比左孩子大，则记录右节点
+        else:
+            largest = left          # 否则就是左节点大
+        if arr[index] < arr[largest]:
+            largest = largest
+        else:
+            largest = index
+        if largest == index:        # 如果该index节点比左右孩子的值都大，则停止调整break
+            break
+        else:
+            arr[largest],arr[index] = arr[index],arr[largest]        #将index与较大的孩子交换，再从交换的孩子处继续调整
+            index = largest
+            left = index*2+1
 =========================================================================================================================
 LEETCODE 215
 在未排序的数组中找到第 k 个最大的元素。请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。

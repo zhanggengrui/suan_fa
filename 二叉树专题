@@ -206,9 +206,26 @@ class Solution(object):
             root = root.left
         return h
 ===================================================================================================================
-题目：层序遍历的反序列化
-给出一个层序遍历的数组（完全二叉树表示），还原二叉树
-def stringToTreeNode(arr):
+题目：二叉树层序遍历的序列化和反序列化
+
+#序列化
+def level_serialize(root,res):
+    q = [root]
+    res.append(root.val)
+    while len(q)!= 0:
+        cur = q.pop(0)
+        if cur.left != None:
+            q.append(cur.left)
+            res.append(cur.left.val)
+        else:
+            res.append(None)
+        if cur.right != None:
+            q.append(cur.right)
+            res.append(cur.right.val)
+        else:
+            res.append(None)
+#反序列化
+def level_deserialize(arr):
     root = TreeNode(arr[0])
     nodeQueue = [root]
     front = 0
@@ -224,7 +241,7 @@ def stringToTreeNode(arr):
             node.left = TreeNode(leftNumber)
             nodeQueue.append(node.left)
 
-        if index >= len(arr):
+        if index >= len(arr): # 因为每次循环index两次加1，所以中间要加一次判断
             break
 
         item = arr[index]
@@ -234,3 +251,4 @@ def stringToTreeNode(arr):
             node.right = TreeNode(rightNumber)
             nodeQueue.append(node.right)
     return root
+

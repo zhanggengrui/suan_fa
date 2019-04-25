@@ -205,3 +205,32 @@ class Solution(object):
             h += 1
             root = root.left
         return h
+===================================================================================================================
+题目：层序遍历的反序列化
+给出一个层序遍历的数组（完全二叉树表示），还原二叉树
+def stringToTreeNode(arr):
+    root = TreeNode(arr[0])
+    nodeQueue = [root]
+    front = 0
+    index = 1
+    while index < len(arr):
+        node = nodeQueue[front]
+        front = front + 1
+
+        item = arr[index]
+        index = index + 1
+        if item != None:
+            leftNumber = int(item)
+            node.left = TreeNode(leftNumber)
+            nodeQueue.append(node.left)
+
+        if index >= len(arr):
+            break
+
+        item = arr[index]
+        index = index + 1
+        if item != None:
+            rightNumber = int(item)
+            node.right = TreeNode(rightNumber)
+            nodeQueue.append(node.right)
+    return root

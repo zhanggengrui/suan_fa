@@ -1,4 +1,4 @@
-LEETCODE 102 二叉树层序遍历
+LEETCODE 102 二叉树层序遍历(直观地打印二叉树）
 给定一个二叉树，返回其按层次遍历的节点值。 （即逐层地，从左到右访问所有节点）。
 例如:
 给定二叉树: [3,9,20,null,null,15,7],
@@ -13,7 +13,7 @@ LEETCODE 102 二叉树层序遍历
 [
   [3],
   [9,20],
-  [15,7]
+  [None,None,15,7]
 ]
 
 解答：
@@ -30,9 +30,13 @@ class Solution(object):
                 if cur_root.left != None:
                     cur.append(cur_root.left.val)
                     queue.append(cur_root.left)
+                else:
+                    cur.append(None)
                 if cur_root.right != None:
                     cur.append(cur_root.right.val)
                     queue.append(cur_root.right)
+                else:
+                    cur.append(None)
             if cur != []:
                 res.append(cur)
         return res

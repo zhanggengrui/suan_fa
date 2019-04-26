@@ -331,3 +331,57 @@ class Solution(object):
             right = max(0, self.helper(root.right))
             self.result = max(self.result, left + right + root.val)
             return max(left, right) + root.val
+===================================================================================================
+LEETCODE 101
+给定一个二叉树，检查它是否是镜像对称的。
+
+例如，二叉树 [1,2,2,3,4,4,3] 是对称的。
+    1
+   / \
+  2   2
+ / \ / \
+3  4 4  3
+
+但是下面这个 [1,2,2,null,3,null,3] 则不是镜像对称的:
+    1
+   / \
+  2   2
+   \   \
+   3    3
+解法1：层序遍历法
+class Solution(object):
+    def isSymmetric(self, root):
+        if root == None:
+            return True
+        queue = [root]
+        while len(queue)!= 0:
+            cur = []
+            for _ in range(len(queue)):
+                cur_root = queue.pop(0)
+                if cur_root.left != None:
+                    cur.append(cur_root.left.val)
+                    queue.append(cur_root.left)
+                else:
+                    cur.append(None)
+                if cur_root.right!=None:
+                    cur.append(cur_root.right.val)
+                    queue.append(cur_root.right)
+                else:
+                    cur.append(None)
+            if cur !=cur[::-1]:
+                return False
+        return True
+解法2：递归遍历法
+class Solution(object):
+    def isSymmetric(self, root):
+        return self.helper(root,root)
+    
+    def helper(self,root1,root2):
+        if root1 == None and root2 ==None:
+            return True
+        if root1 ==None or root2 == None:
+            return False
+        if root1.val!= root2.val:
+            return False
+        else:
+            return self.helper(root1.left,root2.right) and self.helper(root1.right,root2.left)

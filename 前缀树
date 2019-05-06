@@ -1,0 +1,60 @@
+LEETCODE 208
+实现一个 Trie (前缀树)，包含 insert, search, 和 startsWith 这三个操作。
+
+示例:
+Trie trie = new Trie();
+trie.insert("apple");
+trie.search("apple");   // 返回 true
+trie.search("app");     // 返回 false
+trie.startsWith("app"); // 返回 true
+trie.insert("app");   
+trie.search("app");     // 返回 true
+
+解答：
+class Node():
+    def __init__(self):
+        self.path = 0
+        self.end = 0
+        self.next = [None for _ in range(26)]
+        
+class Trie(object):
+    def __init__(self):
+        self.root = Node()
+        
+    def insert(self, word):
+        if word == None:
+            return 
+        node = self.root
+        for i in range(len(word)):
+            index = ord(word[i]) - ord("a")
+            if node.next[index] == None:
+                newnode = Node()
+                node.next[index] = newnode
+                node = node.next[index]
+                node.path += 1
+            else:
+                node = node.next[index]
+                node.path += 1
+        node.end += 1       
+
+    def search(self, word):
+        if word == None:
+            return False
+        node = self.root
+        for i in range(len(word)):
+            index = ord(word[i]) - ord("a")
+            if node.next[index] == None:
+                return False
+            node = node.next[index]
+        return node.end >= 1
+
+    def startsWith(self, prefix):
+        if prefix == None:
+            return False
+        node = self.root
+        for i in range(len(prefix)):
+            index = ord(prefix[i]) - ord("a")
+            if node.next[index] == None:
+                return False
+            node = node.next[index]
+        return node.path >= 1

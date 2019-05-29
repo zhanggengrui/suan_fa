@@ -342,3 +342,73 @@ class Solution(object):
                 p-=1
                 
         return res[-1]
+============================================================================================
+LEETCODE 140
+给定一个非空字符串 s 和一个包含非空单词列表的字典 wordDict，在字符串中增加空格来构建一个句子，使得句子中所有的单词都在词典中。返回所有这些可能的句子。
+说明：
+分隔时可以重复使用字典中的单词。
+你可以假设字典中没有重复的单词。
+示例 1：
+输入:
+s = "catsanddog"
+wordDict = ["cat", "cats", "and", "sand", "dog"]
+输出:
+[
+  "cats and dog",
+  "cat sand dog"
+]
+示例 2：
+输入:
+s = "pineapplepenapple"
+wordDict = ["apple", "pen", "applepen", "pine", "pineapple"]
+输出:
+[
+  "pine apple pen apple",
+  "pineapple pen apple",
+  "pine applepen apple"
+]
+解释: 注意你可以重复使用字典中的单词。
+示例 3：
+输入:
+s = "catsandog"
+wordDict = ["cats", "dog", "sand", "and", "cat"]
+输出:
+[]
+
+解答：
+class Solution(object):
+    def wordBreak(self, s, wordDict):
+        if self.helper1(s,wordDict):
+            self.res = []
+            self.tmp = []
+            self.helper(s, wordDict)
+            return self.res
+        else:
+            return []
+    
+    def helper1(self,s,wordDict):
+        # 求字典中最长字符串
+        maxlen=0
+        for word in wordDict:
+            if len(word)>maxlen:
+                maxlen=len(word)
+        res=[0]*len(s)
+        for i in range(len(s)):
+            p=i
+            while(p>=0 and i-p<=maxlen):
+                # 两个条件
+                if (res[p]==1 and s[p+1:i+1] in wordDict) or (p==0 and s[p:i+1] in wordDict):
+                    res[i]=1
+                    break
+                p-=1
+        return res[-1]
+
+    def helper(self, s, wordDict):
+        if len(s) == 0:
+            self.res.append(" ".join(self.tmp))
+            return
+        for i in range(1, len(s)+1):
+            if s[:i] in wordDict:
+                self.tmp.append(s[:i])
+                self.helper(s[i:], wordDict)
+                self.tmp.pop()

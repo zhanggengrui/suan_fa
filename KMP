@@ -1,0 +1,39 @@
+def get_next(pattern):
+    if len(pattern) == 1:
+        return [-1]
+    next = [0 for _ in range(len(pattern))]
+    next[0] = -1
+    next[1] = 0
+    i = 2
+    cn = 0
+    while i < len(pattern):
+        if pattern[i-1] == pattern[cn]:
+            next[i] = cn+1
+            i += 1
+            cn += 1
+        elif cn > 0:
+            cn = next[cn]
+        else:
+            next[i] = 0
+            i += 1
+    return next
+
+def kmp(text,pattern):
+    n, m = len(text), len(pattern)
+    if m == 0:
+        return 0
+    next = get_next(pattern)
+    j = 0 # text
+    k = 0 # pattern
+    while j < n and k < m:
+        if text[j] == pattern[k]:
+            j += 1
+            k += 1
+        elif k > 0:
+            k = next[k]
+        else:
+            j += 1
+    if k == m:
+        return j - m
+    else:
+        return -1

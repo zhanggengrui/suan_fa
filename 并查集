@@ -38,8 +38,65 @@ class UnionFindSet(object):
             a_set_size = self.size_dict[a_head]
             b_set_size = self.size_dict[b_head]
             if(a_set_size >= b_set_size):
+            
                 self.father_dict[b_head] = a_head
                 self.size_dict[a_head] = a_set_size + b_set_size
             else:
                 self.father_dict[a_head] = b_head
                 self.size_dict[b_head] = a_set_size + b_set_size
+============================================================================================================
+LEETCODE 130
+给定一个二维的矩阵，包含 'X' 和 'O'（字母 O）。
+找到所有被 'X' 围绕的区域，并将这些区域里所有的 'O' 用 'X' 填充。
+
+示例:
+X X X X
+X O O X
+X X O X
+X O X X
+运行你的函数后，矩阵变为：
+X X X X
+X X X X
+X X X X
+X O X X
+
+解释:
+被围绕的区间不会存在于边界上，换句话说，任何边界上的 'O' 都不会被填充为 'X'。 任何不在边界上，或不与边界上的 'O' 相连的 'O' 最终都会被填充为 'X'。
+如果两个元素在水平或垂直方向相邻，则称它们是“相连”的。
+
+解答：
+class Solution(object):
+    def solve(self, board):
+        """
+        :type board: List[List[str]]
+        :rtype: None Do not return anything, modify board in-place instead.
+        """
+        if board == None or len(board) == 0:
+            return board
+        row = len(board)
+        col = len(board[0])
+        data_list = [i for i in range(col*row)]
+        data_list.append(-1)
+        
+        sets = UnionFindSet(data_list)
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if board[i][j] == "O":
+                    if i ==0 or i ==len(board)-1 or j == 0 or j ==len(board[0])-1:
+                        sets.union(-1,i*col+j)
+                    else:
+                        if i-1 >= 0 and board[i-1][j] =="O":
+                            sets.union(i*col+j,(i-1)*col+j)
+                        if i+1 < row and board[i+1][j] =="O":
+                            sets.union(i*col+j,(i+1)*col+j)
+                        if j-1>=0 and board[i][j-1]=="O":
+                            sets.union(i*col+j,i*col+(j-1))
+                        if j+1<col and board[i][j+1]=="O":
+                            sets.union(i*col+j,i*col+(j+1))
+        for i in range(row):
+            for j in range(col):
+                if sets.is_same_set(-1,i*col+j):
+                    board[i][j] = "O"
+                else:
+                    board[i][j] ="X"
+        return board

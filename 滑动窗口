@@ -52,3 +52,40 @@ class Solution:
                 helps.append([r,nums[r]])
                 r += 1
         return helps
+===========================================================================================================
+题目：
+给定数组arr和整数num 返回共有多少个子数组满足：
+                 max(arr[i:j]) - min(arr[i:j]) <= num
+要求：时间复杂度为0(N)
+
+解答：
+def getnum(arr,num):
+    if arr == None or len(arr)==0:
+        return 0
+    res = 0
+    mins = []
+    maxs = []
+    left = 0
+    right = 0
+    while left < len(arr):
+        while right <len(arr):
+            while len(mins)!= 0 and arr[mins[-1]] >= arr[right]:
+                mins.pop()
+            mins.append(right)
+            while len(maxs) != 0 and arr[maxs[-1]] <= arr[right]:
+                maxs.pop()
+            maxs.append(right)
+            if arr[maxs[0]] - arr[mins[0]] > num:
+                break
+            right += 1
+        if mins[0] == left:
+            mins.pop(0)
+        if maxs[0] == left :
+            maxs.pop(0)
+        res += right-left
+        left += 1
+    return res
+
+
+
+

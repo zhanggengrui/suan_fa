@@ -385,3 +385,63 @@ class Solution(object):
             return False
         else:
             return self.helper(root1.left,root2.right) and self.helper(root1.right,root2.left)
+==================================================================================================================
+二叉树morris遍历：
+def morris(root):
+    cur = root
+    while cur != None:
+        if cur.left == None:
+            cur = cur.right
+        else:
+            most_right = cur.left
+            while most_right.right != None and most_right.right != cur:
+                most_right = most_right.right
+            if most_right.right == None:  # 第一次来到cur节点
+                most_right.right = cur
+                cur = cur.left
+            elif most_right.right == cur:  # 第二次来到cur节点
+                most_right.right = None
+                cur = cur.right
+解释：
+如果一个节点有左子树，那么这个节点将会被访问两次，且第二次访问该节点时，该节点的左子树的所有节点已经被访问完毕
+可以通过该节点左子树的最右节点右指针是否指向自己来判断是否是第二次来到该节点。
+如果一个节点没有左子树，则只能访问该节点一次
+==================================================================================================================
+二叉树前序遍历：
+def morris(root):
+    cur = root
+    while cur != None:
+        if cur.left == None:
+            print(cur.val)   #对于没有左子树的节点，在第一次访问该节点时，就打印
+            cur = cur.right
+        else:
+            most_right = cur.left
+            while most_right.right != None and most_right.right != cur:
+                most_right = most_right.right
+            if most_right.right == None:  # 第一次来到cur节点，对于有左子树的节点，在第一次访问该节点时，就打印
+                print(cur.val)
+                most_right.right = cur
+                cur = cur.left
+            elif most_right.right == cur:  # 第二次来到cur节点
+                most_right.right = None
+                cur = cur.right
+
+==================================================================================================================================
+二叉树前序遍历：
+def morris(root):
+    cur = root
+    while cur != None:
+        if cur.left == None:
+            print(cur.val)   #对于没有左子树的节点，在第一次访问该节点时，就打印
+            cur = cur.right
+        else:
+            most_right = cur.left
+            while most_right.right != None and most_right.right != cur:
+                most_right = most_right.right
+            if most_right.right == None:  # 第一次来到cur节点，
+                most_right.right = cur
+                cur = cur.left
+            elif most_right.right == cur:  # 第二次来到cur节点，对于有左子树的节点，在第二次访问该节点时，打印
+                print(cur.val)
+                most_right.right = None
+                cur = cur.right

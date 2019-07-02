@@ -412,3 +412,30 @@ class Solution(object):
                 self.tmp.append(s[:i])
                 self.helper(s[i:], wordDict)
                 self.tmp.pop()
+================================================================================================
+LEETCODE 560
+给定一个整数数组和一个整数 k，你需要找到该数组中和为 k 的连续的子数组的个数。
+
+示例 1 :
+输入:nums = [1,1,1], k = 2
+输出: 2 , [1,1] 与 [1,1] 为两种不同的情况。
+
+解法：
+遍历数组每一个位置，对每一个未知计算从0位置到该位置的累加和；
+假如到了位置i，累加和是sums，此时在之前的数组里面找，是否存在一个位置：从0位置到该位置的累加和等于（k-sums）
+如果存在位置x，则从x+1到位置i的子数组和为k。
+
+class Solution:
+    def subarraySum(self, nums, k ) :
+        d = dict()
+        d[0] = [-1]
+        sums = 0
+        res = 0
+        for i in range(len(nums)):
+            sums += nums[i]
+            if (sums - k) in d:
+                res += len(d[sums - k])
+            d[sums] = d.get(sums,[])
+            d[sums].append(i)
+        return res
+

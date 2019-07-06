@@ -445,3 +445,96 @@ def morris(root):
                 print(cur.val)
                 most_right.right = None
                 cur = cur.right
+===============================================================================================
+LEETCODE 236
+给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。
+百度百科中最近公共祖先的定义为：“对于有根树 T 的两个结点 p、q，最近公共祖先表示为一个结点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。”
+
+示例 1:
+输入: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1
+输出: 3
+解释: 节点 5 和节点 1 的最近公共祖先是节点 3。
+
+例 2:
+输入: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 4
+输出: 5
+解释: 节点 5 和节点 4 的最近公共祖先是节点 5。因为根据定义最近公共祖先节点可以为节点本身。
+ 
+说明:
+所有节点的值都是唯一的。
+p、q 为不同节点且均存在于给定的二叉树中。
+
+解答1：
+思路：
+从根节点开始遍历树。
+如果当前节点本身是 p 或 q 中的一个，我们会将变量 mid 标记为 true，并继续搜索左右分支中的另一个节点。
+如果左分支或右分支中的任何一个返回 true，则表示在下面找到了两个节点中的一个。
+如果在遍历的任何点上，左、右或中三个标志中的任意两个变为 true，这意味着我们找到了节点 p 和 q 的最近公共祖先。
+
+class Solution:
+    def __init__(self):
+        self.res = None
+        self.flag = False
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        self.helper(root,p,q)
+        return self.res
+    
+    def helper(self,root,p,q):
+        if root == None or self.flag == True:
+            return  0
+        if root ==p or root ==q:
+            mid = 1
+        else: 
+            mid = 0
+        left = self.helper(root.left,p,q)
+        right= self.helper(root.right,p,q)
+        if mid+left+right ==2 :
+            self.res = root
+            self.flag = True
+            return 1
+        else:
+            if mid+left+right == 0:
+                return 0
+            if mid+left+right > 0:
+                return 1
+解答2：
+思路：
+从根节点开始遍历树。
+在找到 p 和 q 之前，将父指针存储在字典中。
+一旦我们找到了 p 和 q，我们就可以使用父亲字典获得 p 的所有祖先，并添加到一个称为祖先的集合中。
+同样，我们遍历节点 q 的祖先。如果祖先存在于为 p 设置的祖先中，这意味着这是 p 和 q 之间的第一个共同祖先（同时向上遍历），因此这是 LCA 节点。
+class Solution:
+    def lowestCommonAncestor(self, root, p, q):
+
+        # Stack for tree traversal
+        stack = [root]
+
+        # Dictionary for parent pointers
+        parent = {root: None}
+
+        # Iterate until we find both the nodes p and q
+        while p not in parent or q not in parent:
+
+            node = stack.pop()
+
+            # While traversing the tree, keep saving the parent pointers.
+            if node.left:
+                parent[node.left] = node
+                stack.append(node.left)
+            if node.right:
+                parent[node.right] = node
+                stack.append(node.right)
+
+        # Ancestors set() for node p.
+        ancestors = set()
+
+        # Process all ancestors for node p using parent pointers.
+        while p:
+            ancestors.add(p)
+            p = parent[p]
+
+        # The first ancestor of q which appears in
+        # p's ancestor set() is their lowest common ancestor.
+        while q not in ancestors:
+            q = parent[q]
+        return q

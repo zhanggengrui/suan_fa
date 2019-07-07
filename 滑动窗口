@@ -86,6 +86,59 @@ def getnum(arr,num):
         left += 1
     return res
 
+=====================================================================================
+LEETCODE76
+给你一个字符串 S、一个字符串 T，请在字符串 S 里面找出：包含 T 所有字母的最小子串。
+
+示例：
+输入: S = "ADOBECODEBANC", T = "ABC"
+输出: "BANC"
+
+说明：
+如果 S 中不存这样的子串，则返回空字符串 ""。
+如果 S 中存在这样的子串，我们保证它是唯一的答案。
+
+解答：
+import sys
+class Solution:
+    def minWindow(self, s, t):
+        left = 0
+        right = 0
+        d = dict()
+        min_size = sys.maxsize
+        res = ""
+        for i in t:
+            d[i] = d.get(i, 0) + 1
+        curnum = len(t)
+        while right < len(s):
+            if curnum != 0:
+                if s[right] in d :
+                    if d[s[right]]>0:
+                        curnum -= 1
+                    d[s[right]] -= 1
+                right += 1
+            else:
+                while curnum == 0:
+                    if (right - left) < min_size:
+                        res = s[left:right]
+                        min_size = right - left
+                    if s[left] in d:
+                        if d[s[left]] >= 0:
+                            curnum += 1
+                        d[s[left]] += 1
+                    left += 1
+
+        while curnum == 0:
+            if (right - left) < min_size:
+                res = s[left:right]
+                min_size = right - left
+            if s[left] in d:
+                if d[s[left]] >= 0:
+                    curnum += 1
+                d[s[left]] += 1
+            left += 1
+        return res
+
 
 
 

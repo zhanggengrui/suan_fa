@@ -139,6 +139,43 @@ class Solution:
             left += 1
         return res
 
+方法二：
+import sys
 
 
+class Solution:
+    def minWindow(self, s, t):
+        left = 0
+        right = 0
+        t_d = dict()
+        for i in t:
+            t_d[i] = t_d.get(i, 0) + 1
+        min_size = sys.maxsize
+        res = ""
+        window_d = dict()
+        required = len(t_d)
+        formed = 0
+        while right<len(s):
+            window_d[s[right]] = window_d.get(s[right],0)+1
+            if s[right] in t_d and window_d[s[right]] == t_d[s[right]]:
+                formed += 1
+            while left <= right and formed == required:
+                if (right-left)<min_size:
+                    min_size = right-left
+                    res = s[left:right+1]
+                window_d[s[left]] -= 1
+                if s[left] in t_d and window_d[s[left]] < t_d[s[left]]:
+                    formed -= 1
+                left += 1
+            right += 1
+        return res
+
+归纳：
+while r <len(s):
+  加入r
+  while l <=r and 某条件成立：
+    l向右走
+    更改条件现状
+  r向右走
+ 
 

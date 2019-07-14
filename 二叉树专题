@@ -215,6 +215,30 @@ class Solution(object):
 注意：
 本题目不能使用收集当前节点的左右子树信息的方式来解答，需要在每一个叶子结点处进行累加操作，所以递归函数不返回左右子树的信息
 ======================================================================================================================
+判断一棵树是否是完全二叉树
+方法：
+按层遍历树：
+    （1）如果遇到一个节点，只有右没有左，直接返回False
+    （2）如果遇到一个节点只有左，没有右，那么该节点后面遍历到的节点都要是叶节点
+解答：
+def is_full_tree(root):
+    queue = []
+    leaf = False
+    while len(queue) != 0:
+        for _ in range(len(queue)):
+            cur = queue.pop(0)
+            if cur.left == None and cur.right!=None:
+                return False
+            if leaf == False and(cur.left ==None or cur.right == None):
+                leaf = True
+            if leaf == True and (cur.left != None or cur.left != None):
+                return False
+            if cur.left != None:
+                queue.append(cur.left)
+            if cur.right != None:
+                queue.append(cur.right)
+    return True
+======================================================================================================================
 LEETCODE 222
 给出一个完全二叉树，求出该树的节点个数。
 

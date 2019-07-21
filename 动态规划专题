@@ -439,3 +439,88 @@ class Solution:
             d[sums].append(i)
         return res
 
+===============================================================================================
+LEETCODE 518 
+给定不同面额的硬币和一个总金额。写出函数来计算可以凑成总金额的硬币组合数。假设每一种面额的硬币有无限个。 
+
+示例 1:
+输入: amount = 5, coins = [1, 2, 5]
+输出: 4
+解释: 有四种方式可以凑成总金额:
+5=5
+5=2+2+1
+5=2+1+1+1
+5=1+1+1+1+1
+
+示例 2:
+输入: amount = 3, coins = [2]
+输出: 0
+解释: 只用面额2的硬币不能凑成总金额3。
+
+示例 3:
+输入: amount = 10, coins = [10] 
+输出: 1
+
+解法一：暴力尝试
+class Solution:
+    def change(self, amount, coins):
+        return self.helper(coins,0,amount)
+
+    #arr： 数组（不变）
+    #i：   从第i个位置开始
+    #num： 还剩下需要凑的钱
+    def helper1(self,arr,i,num):
+        if i == len(arr):
+            if num ==0:
+                return 1
+            else:
+                return 0
+        count = 0
+        res = 0
+        while num - arr[i]*count >= 0:
+            res = res + self.helper(arr,i+1,num-arr[i]*count)
+            count += 1
+        return res
+        
+解法二：动态规划
+def helper2(self, arr, amount, i, num):
+        dp = [[0 for i in range(amount + 1)] for j in range(len(arr)+1)]
+        for j in range(amount + 1):
+            if j == 0:
+                dp[len(arr)][j] = 1
+            else:
+                dp[len(arr)][j] = 0
+        for i in range(len(arr)-1, -1,-1):
+            for j in range(0, amount + 1):
+                dp[i][j] = 0
+                count = 0
+                while j - arr[i] * count >= 0:
+                    dp[i][j] += dp[i+1][j - arr[i] * count]
+                    count += 1
+        return dp[0][-1]
+        
+ 解法三：动态规划（优化）
+ def helper3(self, arr, amount, i, num):
+        dp = [[0 for i in range(amount + 1)] for j in range(len(arr)+1)]
+        for j in range(amount + 1):
+            if j == 0:
+                dp[len(arr)][j] = 1
+            else:
+                dp[len(arr)][j] = 0
+        for i in range(len(arr)-1, -1,-1):
+            for j in range(0, amount + 1):
+                if j -arr[i] >= 0:
+                    dp[i][j] = dp[i+1][j] + dp[i][j-arr[i]]
+                else:
+                    dp[i][j] = dp[i+1][j]
+        return dp[0][-1]
+        
+ 解法四：动态规划（空间优化）
+ def helper4(self,arr,amount,i,num):
+        dp = [0 for i in range(amount+1)]
+        dp[0] = 1
+        for a in arr:
+            for j in range(a,amount+1):
+                dp[j] = dp[j]+dp[j-a]
+        return dp[-1]
+

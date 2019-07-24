@@ -523,4 +523,80 @@ def helper2(self, arr, amount, i, num):
             for j in range(a,amount+1):
                 dp[j] = dp[j]+dp[j-a]
         return dp[-1]
+=============================================================================================================-==
+LEETCODE 115 
+给定一个字符串 S 和一个字符串 T，计算在 S 的子序列中 T 出现的个数。
+一个字符串的一个子序列是指，通过删除一些（也可以不删除）字符且不干扰剩余字符相对位置所组成的新字符串。（例如，"ACE" 是 "ABCDE" 的一个子序列，而 "AEC" 不是）
 
+示例 1:
+输入: S = "rabbbit", T = "rabbit"
+输出: 3
+解释:
+如下图所示, 有 3 种可以从 S 中得到 "rabbit" 的方案。
+(上箭头符号 ^ 表示选取的字母)
+rabbbit
+^^^^ ^^
+rabbbit
+^^ ^^^^
+rabbbit
+^^^ ^^^
+
+示例 2:
+输入: S = "babgbag", T = "bag"
+输出: 5
+解释:
+如下图所示, 有 5 种可以从 S 中得到 "bag" 的方案。 
+(上箭头符号 ^ 表示选取的字母)
+babgbag
+^^ ^
+babgbag
+^^    ^
+babgbag
+^    ^^
+babgbag
+  ^  ^^
+babgbag
+    ^^^
+
+解法1：暴力尝试
+class Solution:
+    def numDistinct(self, s: str, t: str) -> int:
+        return self.helper(s, 0, t, 0)
+        
+    def helper(self, s, i, t, target):
+        if target == len(t) and i == len(s) :
+            return 1
+        if target == len(t):
+            return 1
+        if i == len(s):
+            return 0
+        res = 0
+        if s[i] == t[target]:
+            res = self.helper(s, i + 1, t, target + 1) + self.helper(s, i + 1, t, target)
+        else:
+            res = self.helper(s, i + 1, t, target)
+        return res
+        
+解法2：动态规划（时间优化）：
+def helper2(self,s,t):
+        dp = [[0 for i in range(len(t)+1)]for j in range(len(s)+1)]
+        for i in range(0,len(s)+1):
+            dp[i][-1] = 1
+        for i in range(len(s)-1,-1,-1):
+            for j in range(0,min(i+2,len(t))):
+                if s[i] == t[j]:
+                    dp[i][j] = dp[i+1][j+1]+dp[i+1][j]
+                else:
+                    dp[i][j] = dp[i+1][j]
+        return dp[0][0]
+解法三：（空间优化）
+def helper3(self,s,t):
+        dp = [0 for _ in range(len(t)+1)]
+        dp[-1] = 1
+        for i in range(len(s)-1,-1,-1):
+            for j in range(0,min(i+2,len(t))):
+                if s[i] == t[j]:
+                    dp[j] = dp[j+1]+dp[j]
+                else:
+                    dp[j] = dp[j]
+        return dp[0]

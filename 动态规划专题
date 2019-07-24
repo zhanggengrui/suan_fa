@@ -561,9 +561,11 @@ babgbag
 解法1：暴力尝试
 class Solution:
     def numDistinct(self, s: str, t: str) -> int:
-        return self.helper(s, 0, t, 0)
+        return self.helper1(s, 0, t, 0)
+        #return self.helper2(s,t)
+        #return self.helper3(s,t)
         
-    def helper(self, s, i, t, target):
+    def helper1(self, s, i, t, target):
         if target == len(t) and i == len(s) :
             return 1
         if target == len(t):

@@ -16,14 +16,16 @@ class Node():
         self.path = 0
         self.end = 0
         self.next = [None for _ in range(26)]
-        
+
+
 class Trie(object):
     def __init__(self):
-        self.root = Node()
-        
+        self.root = Node()  
+        self._size = 0 # 标记有多少个不同的字符串
+
     def insert(self, word):
         if word == None:
-            return 
+            return
         node = self.root
         for i in range(len(word)):
             index = ord(word[i]) - ord("a")
@@ -35,7 +37,9 @@ class Trie(object):
             else:
                 node = node.next[index]
                 node.path += 1
-        node.end += 1       
+        if node.end == 0:
+            self._size += 1
+        node.end += 1
 
     def search(self, word):
         if word == None:
@@ -58,3 +62,6 @@ class Trie(object):
                 return False
             node = node.next[index]
         return node.path >= 1
+
+    def get_size(self):
+        return self._size

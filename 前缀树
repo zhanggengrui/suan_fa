@@ -15,13 +15,14 @@ class Node():
     def __init__(self):
         self.path = 0
         self.end = 0
+        self.parent = None
         self.next = [None for _ in range(26)]
 
 
 class Trie(object):
     def __init__(self):
-        self.root = Node()  
-        self._size = 0 # 标记有多少个不同的字符串
+        self.root = Node()
+        self._size = 0
 
     def insert(self, word):
         if word == None:
@@ -65,3 +66,19 @@ class Trie(object):
 
     def get_size(self):
         return self._size
+
+    #按字典序输出
+    def print_trie(self):
+        res = []
+        self.print_trie_(self.root,"",res)
+        return res
+
+    def print_trie_(self,root,cur_char,res):
+        for i in range(len(root.next)):
+            if root.next[i] != None:
+                cur_char += chr(ord("a")+i)
+                if root.next[i].end != 0:
+                    for _ in range(root.next[i].end):
+                        res.append(cur_char[:])
+                self.print_trie_(root.next[i],cur_char,res)
+                cur_char = cur_char[:-1]

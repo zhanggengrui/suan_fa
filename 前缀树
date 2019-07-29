@@ -15,7 +15,6 @@ class Node():
     def __init__(self):
         self.path = 0
         self.end = 0
-        self.parent = None
         self.next = [None for _ in range(26)]
 
 
@@ -82,3 +81,70 @@ class Trie(object):
                         res.append(cur_char[:])
                 self.print_trie_(root.next[i],cur_char,res)
                 cur_char = cur_char[:-1]
+============================================================================================================
+LEETCODE 211
+设计一个支持以下两种操作的数据结构：
+void addWord(word)
+bool search(word)
+search(word) 可以搜索文字或正则表达式字符串，字符串只包含字母 . 或 a-z 。 . 可以表示任何一个字母。
+
+示例:
+addWord("bad")
+addWord("dad")
+addWord("mad")
+search("pad") -> false
+search("bad") -> true
+search(".ad") -> true
+search("b..") -> true
+
+解答:
+class Node:
+    def __init__(self):
+        self.path = 0
+        self.end = 0
+        self.next = [None for _ in range(26)]
+
+
+class WordDictionary:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.root = Node()
+
+    def addWord(self, word: str) -> None:
+        """
+        Adds a word into the data structure.
+        """
+        node = self.root
+        for c in word:
+            idx = ord(c) - ord("a")
+            if node.next[idx] == None:
+                newnode = Node()
+                node.next[idx] = newnode
+            node = node.next[idx]
+            node.path += 1
+        node.end += 1
+
+    def search(self, word: str) -> bool:
+        """
+        Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter.
+        """
+        if word == None:
+            return False
+        return self.helper(self.root,word,0)
+    
+    def helper(self,root,word,start):
+        if start == len(word):
+            return root.end > 0
+        c = word[start]
+        if c ==".": #遇到通配符时，遍历下面的所有的分值，如果有一个分值返回Ture，咋返回True
+            for n in root.next:
+                if n != None and self.helper(n,word,start+1):
+                    return True
+            return False
+        else:
+            if root.next[ord(c)-ord("a")] == None:
+                return False
+            return self.helper(root.next[ord(c)-ord("a")],word,start+1)

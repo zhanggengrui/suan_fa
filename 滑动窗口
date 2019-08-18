@@ -217,4 +217,15 @@ class Solution:
                 l += 1
         return max_len
 
+套路：
+l = 0
+r = 0
+while r<len(s):
+  if ...:
+    加入 r
+    r+= 1
+  else:
+    删掉 l
+    l+=1
+   
 

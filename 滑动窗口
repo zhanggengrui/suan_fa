@@ -194,20 +194,20 @@ LEETCODE 3
 解答：
 class Solution:
     def lengthOfLongestSubstring(self, s):
-        if len(s) == 0 or s == None:
-            return 0
-        l = 0
-        r = 0
-        sets = set()
-        max_len = 1
-        while r < len(s):
-            if s[r] not in sets:
-                sets.add(s[r])
-                max_len = max(max_len,len(sets))
-                r += 1
-            else:
-                sets.remove((s[l]))
-                l += 1
+        left = 0
+        right = 0
+        window = dict()
+        max_len = 0
+        while right<len(s):
+            window[s[right]] = window.get(s[right],0)+1
+            right+=1
+            while (right - left) != len(window):
+                if window[s[left]] == 1:
+                    window.pop(s[left])
+                else:
+                    window[s[left]] -= 1
+                left += 1
+            max_len = max(max_len,right-left)
         return max_len
 
 

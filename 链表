@@ -84,6 +84,21 @@ class Solution(object):
             cur.next,pre,cur = pre,cur,cur.next
         return pre
 
+解法三：栈
+class Solution:
+    def reverseList(self, head):
+        stack = []
+        cur = head
+        while cur != None:
+            stack.append(cur)
+            cur = cur.next
+        prehead = ListNode(None)
+        cur = prehead
+        while len(stack) != 0:
+            cur.next = stack.pop()
+            cur = cur.next
+        cur.next = None
+        return prehead.next
 =================================================================================================================
 LEETCODE 141 环形链表
 给定一个链表，判断链表中是否有环。

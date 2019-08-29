@@ -157,3 +157,9 @@ if __name__ == '__main__':
     print("Has sorted-----------------")
     for i in node_list:
         print(i.val)
+========================================================================================================
+from collections import Counter
+counts = Counter([c for c in 'programmingg'])
+for k,v in counts.items():
+    print(k,v)
+print(counts.most_common(2)) #

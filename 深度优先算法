@@ -1,3 +1,49 @@
+LEETCODE 79 
+给定一个二维网格和一个单词，找出该单词是否存在于网格中。
+单词必须按照字母顺序，通过相邻的单元格内的字母构成，其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。同一个单元格内的字母不允许被重复使用。
+
+示例:
+board =
+[
+  ['A','B','C','E'],
+  ['S','F','C','S'],
+  ['A','D','E','E']
+]
+给定 word = "ABCCED", 返回 true.
+给定 word = "SEE", 返回 true.
+给定 word = "ABCB", 返回 false.
+
+解答：
+class Solution:
+    def exist(self, board, word):
+        mat = [[0 for i in range(len(board[0]))] for j in range(len(board))]
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if board[i][j] == word[0]:
+                    if self.dfs(mat, board, word[1:], i, j):
+                        return True
+        return False
+
+    def dfs(self, mat, board, word, i, j):
+        if len(word) == 0:
+            return True
+        mat[i][j] = 1   # 深度优先收缩路径，要在这里先发位置占上
+        if i-1>=0 and mat[i-1][j] == 0 and board[i-1][j] == word[0]:
+            if self.dfs(mat,board,word[1:],i-1,j):
+                return True
+        if i+1<len(board) and mat[i+1][j] == 0 and board[i+1][j] == word[0] :
+            if self.dfs(mat,board,word[1:],i+1,j):
+                return True
+        if j-1 >=0 and mat[i][j-1] ==0 and board[i][j-1] == word[0] :
+            if self.dfs(mat,board,word[1:],i,j-1):
+                return True
+        if j+1 <len(board[0]) and mat[i][j+1] ==0 and board[i][j+1] == word[0] :
+            if self.dfs(mat,board,word[1:],i,j+1):
+                return True
+        mat[i][j] = 0 # 回溯回来后，把这个位置释放掉
+        return False
+
+============================================================================================
 #题目描述：寻找面积最大的岛屿（P116）
 class area():                  # 设置一个类对象用来进行存储
     def __init__(self):

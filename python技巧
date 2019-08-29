@@ -172,6 +172,8 @@ print(counts.most_common(2)) #
 >>> q
 deque(['y', 'a', 'b', 'c', 'x'])
 =============================================================================================================
+堆heapq的高级应用
+
 import heapq
 from pprint import pprint
 portfolio = [

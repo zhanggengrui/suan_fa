@@ -171,3 +171,36 @@ print(counts.most_common(2)) #
 >>> q.appendleft('y')
 >>> q
 deque(['y', 'a', 'b', 'c', 'x'])
+=============================================================================================================
+import heapq
+from pprint import pprint
+portfolio = [
+    {'name': 'IBM', 'shares': 100, 'price': 91.1},
+    {'name': 'AAPL', 'shares': 50, 'price': 543.22},
+    {'name': 'FB', 'shares': 200, 'price': 21.09},
+    {'name': 'HPQ', 'shares': 35, 'price': 31.75},
+    {'name': 'YHOO', 'shares': 45, 'price': 16.35},
+    {'name': 'ACME', 'shares': 75, 'price': 115.65}
+]
+cheap = heapq.nsmallest(3, portfolio, key=lambda s: s['price'])  #这两个函数还接受一个key参数，用于dict或其他数据结构类型使用
+expensive = heapq.nlargest(3, portfolio, key=lambda s: s['price'])
+pprint(cheap)
+pprint(expensive)
+
+"""
+输出：
+[{'name': 'YHOO', 'price': 16.35, 'shares': 45},
+ {'name': 'FB', 'price': 21.09, 'shares': 200},
+ {'name': 'HPQ', 'price': 31.75, 'shares': 35}]
+[{'name': 'AAPL', 'price': 543.22, 'shares': 50},
+ {'name': 'ACME', 'price': 115.65, 'shares': 75},
+ {'name': 'IBM', 'price': 91.1, 'shares': 100}]
+
+
+>>> h = []
+>>> heappush(h, (5, 'write code'))    #堆的值可以是元组类型，可以实现对带权值的元素进行排序
+>>> heappush(h, (7, 'release product'))
+>>> heappush(h, (1, 'write spec'))
+>>> heappush(h, (3, 'create tests'))
+>>> heappop(h)
+(1, 'write spec')

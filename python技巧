@@ -206,3 +206,14 @@ pprint(expensive)
 >>> heappush(h, (3, 'create tests'))
 >>> heappop(h)
 (1, 'write spec')
+
+========================================================================================================
+from collections import OrderedDict
+od = OrderedDict()
+od[1] = 0
+od[3] = 0
+od[2] = 0
+
+print(od.pop(1)) # 删除key为1的键-值对
+print((od.popitem(0)))  # 删除第一个加入的键-值对
+print((od.popitem()))  # 删除最后一个加入的键-值对

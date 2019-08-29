@@ -163,3 +163,11 @@ counts = Counter([c for c in 'programmingg'])
 for k,v in counts.items():
     print(k,v)
 print(counts.most_common(2)) #
+=======================================================================================================
+
+ from collections import deque
+>>> q = deque(['a', 'b', 'c'])
+>>> q.append('x')
+>>> q.appendleft('y')
+>>> q
+deque(['y', 'a', 'b', 'c', 'x'])

@@ -95,7 +95,6 @@ def testClassValue():
 
         # 类类型，使用的是小于号_lt_
         def __lt__(self, other):  # operator <
-            #             print('in __lt__(self, other)')
             return self.getValue() < other.getValue()
 
         def __ge__(self, other):  # oprator >=

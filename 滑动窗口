@@ -165,8 +165,9 @@ right = 0
 window = []
 while right < len(arr):
     window.append(s.[right])
+    更新条件
     right += 1
-    while (窗口满足条件）:
+    while left <= right and 窗口满足条件:  #千万别忘了left <= right 
         window.pop(s[left])
         更新窗口条件
         left += 1

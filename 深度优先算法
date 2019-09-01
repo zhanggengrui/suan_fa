@@ -25,6 +25,20 @@ def dfs_digui2(当前位置,path):
     path.pop()
     解除当前位置的标记
 
+def dfs_feidigui(初始位置):
+    stack = []
+    标记初始位置
+    while len(stack) != 0 :
+        当前位置 = stack.pop()
+        if 当前位置 == 目标位置:
+            return True
+        for 当前位置的所有下一个位置:
+            if 下一个位置没有越界 and 没有被访问过:
+                stack.append(下一个位置)
+                标记该下一个位置
+    return False
+
+
 ============================================================================================
 LEETCODE 79 
 给定一个二维网格和一个单词，找出该单词是否存在于网格中。

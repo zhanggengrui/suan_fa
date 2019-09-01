@@ -562,3 +562,67 @@ class Solution:
         while q not in ancestors:
             q = parent[q]
         return q
+==============================================================================================================
+非递归便利二叉树：
+（1）前序遍历：
+class Solution(object):
+    def preorderTraversal(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[int]
+        """
+        if root == None:
+            return []
+        stack = [root]
+        res = []
+        while len(stack)!=0:
+            cur = stack.pop()
+            res.append(cur.val)
+            if cur.right != None:
+                stack.append(cur.right)
+            if cur.left != None:
+                stack.append(cur.left)
+        return res
+（2）中序遍历：
+class Solution(object):
+    def inorderTraversal(self, root):
+        if root == None:
+            return []
+        stack = [root]
+        mark = set()
+        res = []
+        while len(stack) != 0:
+            cur = stack.pop()
+            if cur not in mark:
+                mark.add(cur)
+                if cur.right != None:
+                    stack.append(cur.right)
+                stack.append(cur)
+                if cur.left != None:
+                    stack.append(cur.left)
+            else:
+                res.append(cur.val)
+        return res
+（3）后序遍历：
+class Solution(object):
+    def inorderTraversal(self, root):
+        if root == None:
+            return []
+        stack = [root]
+        d = dict()
+        res = []
+        while len(stack) != 0:
+            cur = stack.pop()
+            if cur not in d  :#第一次到该节点
+                d[cur] = 1
+                stack.append(cur)
+                if cur.left != None:
+                    stack.append(cur.left)
+            elif d[cur] == 1: #第二次到该节点
+                d[cur] += 1
+                stack.append(cur)
+                if cur.right != None:
+                    stack.append(cur.right)
+            else:             #第三次到该节点
+                res.append(cur.val)
+        return res

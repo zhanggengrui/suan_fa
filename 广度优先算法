@@ -42,16 +42,16 @@ def removeInvalidParentheses(self, s):
         queue = [s]
         mark.add(s)
         while len(queue) != 0:
-            for _ in range(len(queue)):
+            for _ in range(len(queue)): # 按层遍历，每一层是一步的所有可能
                 cur = queue.pop(0)
-                if self.is_valid(cur):
+                if self.is_valid(cur):  # 该层中已经有符合的了
                     res.append(cur)
-                    flag = True
+                    flag = True         # 标记一下，不用再想下面的层进行遍历了
                 if flag == False:
                     for i in range(len(cur)):
-                        if cur[i] in ["(",")"] and cur[:i]+cur[i+1:] not in mark:
+                        if cur[i] in ["(",")"] and cur[:i]+cur[i+1:] not in mark:  # 当前位置的每一个下一个位置在加入queue之前一定要看一下是否访问股哟
                             queue.append(cur[:i]+cur[i+1:])
-                            mark.add(cur[:i]+cur[i+1:])
+                            mark.add(cur[:i]+cur[i+1:])  # 加入queue后，标记访问过了
             if flag:
                 break
         return res

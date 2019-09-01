@@ -7,23 +7,30 @@
 "(a)(b)()" 和 "(a(b))()"
 
 解答：
-class Solution:
-    def bfs(self,strs):
-        queue = [strs] # bfs队列
+def removeInvalidParentheses(self, s):
+        """
+        :type s: str
+        :rtype: List[str]
+        """
         res = []
-        while len(queue)!= 0:
-            for cur in queue:     #查找当前队列里面有没有合法字符串
-                if self.is_valid(cur): #假如有合法字符串，就将他假如res
+        flag = False
+        mark = set()
+        queue = [s]
+        mark.add(s)
+        while len(queue) != 0:
+            for _ in range(len(queue)):
+                cur = queue.pop(0)
+                if self.is_valid(cur):
                     res.append(cur)
-            if len(res)>0:
-                return list(set(res))  #如果当前队列you合法字符串，就不在进行下一层的遍历；
-            tmp = []
-            for s in queue:
-                for i in range(len(s)):
-                    if s[i] =="(" or s[i] == ")":
-                        tmp.append(s[:i]+s[i+1:])
-            queue = list(set(tmp))
-        return list(set(res))
+                    flag = True
+                if flag == False:
+                    for i in range(len(cur)):
+                        if cur[i] in ["(",")"] and cur[:i]+cur[i+1:] not in mark:
+                            queue.append(cur[:i]+cur[i+1:])
+                            mark.add(cur[:i]+cur[i+1:])
+            if flag:
+                break
+        return res
 
     def is_valid(self,s):
         cnt = 0

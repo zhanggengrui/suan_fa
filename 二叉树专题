@@ -603,6 +603,29 @@ class Solution(object):
             else:
                 res.append(cur.val)
         return res
+        
+中序遍历2：
+import collections
+class Solution:
+    def inorderTraversal(self, root: TreeNode) -> List[int]:
+        if root == None:
+            return []
+        stack = [root]
+        mark = collections.defaultdict(int)
+        res = []
+        while stack:
+            cur = stack.pop()
+            if mark[cur]<1:
+                mark[cur] += 1
+                if cur.right != None:
+                    stack.append(cur.right)
+                stack.append(cur)
+                if cur.left != None:
+                    stack.append(cur.left)
+            elif mark[cur] == 1:
+                res.append(cur.val)
+        return res
+        
 （3）后序遍历：
 class Solution(object):
     def inorderTraversal(self, root):

@@ -24,3 +24,38 @@ def b_search(arr,target,l,r):
         return b_search(arr,target,mid+1,r)
     else:
         return b_search(arr,target,l,mid-1)
+        
+===============================================================================================================
+给定一个按照升序排列的整数数组 nums，和一个目标值 target。找出给定目标值在数组中的开始位置和结束位置。
+你的算法时间复杂度必须是 O(log n) 级别。
+如果数组中不存在目标值，返回 [-1, -1]。
+
+class Solution:
+    def searchRange(self, nums, target):
+        low = self.low_search(nums,target,0,len(nums)-1)
+        up = self.up_search(nums,target,0,len(nums)-1)
+        return [low,up]
+    
+    def low_search(self,nums ,target,l,r):
+        if l > r:
+            return -1
+        mid = l + (r-l)//2
+        if nums[mid] == target and (mid == 0 or nums[mid-1] < nums[mid]):
+            return mid        
+        if target <= nums[mid]:
+            return self.low_search(nums,target,l,mid-1)
+        else:
+            return self.low_search(nums,target,mid+1,r)
+    
+    def up_search(self,nums ,target,l,r):
+        if l > r:
+            return -1
+        mid = l + (r-l)//2
+        if nums[mid] == target and (mid == len(nums)-1 or nums[mid+1] > nums[mid]):
+            return mid        
+        if target >= nums[mid]:
+            return self.up_search(nums,target,mid+1,r)
+        else:
+            return self.up_search(nums,target,l,mid-1)
+
+

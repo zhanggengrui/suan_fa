@@ -1,4 +1,5 @@
-def b_search(arr,target):
+#非递归
+def b_search(arr,target): 
     l = 0
     r = len(arr)-1
     mid = -1
@@ -11,3 +12,15 @@ def b_search(arr,target):
         else:
             r = mid -1
     return mid
+
+#递归
+def b_search(arr,target,l,r):
+    if l > r:
+        return -1
+    mid = l + (r - l) // 2
+    if arr[mid] == target:
+        return mid
+    if arr[mid] < target:
+        return b_search(arr,target,mid+1,r)
+    else:
+        return b_search(arr,target,l,mid-1)

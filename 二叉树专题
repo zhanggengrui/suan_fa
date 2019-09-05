@@ -626,3 +626,26 @@ class Solution(object):
             else:             #第三次到该节点
                 res.append(cur.val)
         return res
+
+后序遍历方法2：
+import collections
+class Solution:
+    def postorderTraversal(self, root):
+        if root == None:
+            return []
+        stack = [root]
+        res = []
+        mark = collections.defaultdict(int)
+        while stack:
+            cur = stack.pop()
+            if mark[cur] < 2:
+                mark[cur] += 1
+                stack.append(cur)
+                if cur.right != None:
+                    stack.append(cur.right)
+                if cur.left != None:
+                    stack.append(cur.left)
+            elif mark[cur] == 2:
+                mark[cur] += 1
+                res.append(cur.val)
+        return res

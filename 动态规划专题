@@ -25,40 +25,34 @@ def LCS(arr1,arr2):
     return mat[-1][-1]
     
 ============================================================================================================
+题目：求两个字符串的最长公共子串
+给定两个字符串，求出他们的最长公共子序列，
+如 A = "HELLOWORLD"
+   B = "LOOP"
+则最长公共子序列是“LO”:
 
-#题目一：求两个字符串的最长公共子串
-def get_max_sub_str(arr1,arr2):
-    res = ''
-    len1 = len(arr1)
-    len2 = len(arr2)
-    mat = [[None for i in range(len1+1)]for j in range(len2+1)]
-    for i in range(len1+1):
-        mat[0][i] = 0
-    for j in range(len2+1):
-        mat[j][0] = 0
-    maxs = 0
-    maxindex = 0
-    for i in range(0,len1+1):
-        for j in range(0,len2+1):
-            if arr1[i-1] == arr2[j-1]:
-                mat[i][j] = mat[i-1][j-1]+1
-                if mat[i][j] > maxs:
-                    maxs = mat[i][j]
-                    maxindex = i
+解题思路：
+    采用区间规划，使用二维表记录，mat[i][j]代表截止到字符串A的i位置和字符串B的j位置，
+    两个字符串的公共总序列
+    转移方程：
+        （1） A[i-1] == B[j-1]: mat[i][j] = mat[i-1][j-1] + 1
+        （2） A[i-1] != B[j-1] : mat[i][j] = 0
+    边界问题：
+    i = 0 or j = 0: mat[i][j] = 0
+
+解答：
+def LCString(arr1,arr2):
+    mat = [[0 for j in range(len(arr2)+1)] for i in range(len(arr1)+1)]
+    res= 0
+    for i in range(1,len(arr1)+1):
+        for j in range(1,len(arr2)+1):
+            if arr1[i-1] == arr2[j-1] :
+                mat[i][j] = mat[i-1][j-1] + 1  # 由于在左上补了一圈0，所以arr的索引比mat索引小1
+                res = max(res,mat[i][j])
             else:
                 mat[i][j] = 0
-    i = maxindex - maxs
-    while i <maxindex:
-        res = res+arr1[i]
-        i +=1
-
     return res
 
-
-if __name__ =="__main__":
-    arr1 = 'abccade'
-    arr2 = 'dgcadde'
-    print(get_max_sub_str(arr1,arr2))
     
 ======================================================================================
 

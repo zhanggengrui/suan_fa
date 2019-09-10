@@ -158,4 +158,41 @@ class Solution:
                 l = mid + 1
         return -1
 
+========================================================================================================
+LEETCODE 14 
+编写一个函数来查找字符串数组中的最长公共前缀。如果不存在公共前缀，返回空字符串 ""。
+
+示例 1:
+输入: ["flower","flow","flight"]
+输出: "fl"
+
+示例 2:
+输入: ["dog","racecar","car"]
+输出: ""
+解释: 输入不存在公共前缀。
+
+解答：
+class Solution:
+    def longestCommonPrefix(self, strs):
+        if strs == None or len(strs) == 0:
+            return ""
+        return self.help(strs)
+
+    def help(self, strs):
+        if len(strs) == 1:
+            return strs[0]
+        mid = len(strs) // 2
+        left = self.help(strs[:mid])
+        right = self.help(strs[mid:])
+        return self.common(left,right)
+    
+    def common(self,arr1,arr2):
+        idx = 0
+        while idx < len(arr1) and idx <len(arr2):
+            if arr1[idx] == arr2[idx]:
+                idx += 1
+            else:
+                break
+        return arr1[:idx]
+
 

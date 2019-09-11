@@ -1,0 +1,214 @@
+class UnionFindSet(object):
+    """并查集"""
+    def __init__(self, data_list):
+        """初始化两个字典，一个保存节点的父节点，另外一个保存父节点的大小
+        初始化的时候，将节点的父节点设为自身，size设为1"""
+        self.father_dict = {}
+        self.size_dict = {}
+
+        for node in data_list:
+            self.father_dict[node] = node
+            self.size_dict[node] = 1
+
+    def find_head(self, node):
+        """使用递归的方式来查找父节点
+
+        在查找父节点的时候，顺便把当前节点移动到父节点上面
+        这个操作算是一个优化
+        """
+        father = self.father_dict[node]
+        if(node != father):
+            father = self.find_head(father)
+        self.father_dict[node] = father
+        return father
+
+    def is_same_set(self, node_a, node_b):
+        """查看两个节点是不是在一个集合里面"""
+        return self.find_head(node_a) == self.find_head(node_b)
+
+    def union(self, node_a, node_b):
+        """将两个集合合并在一起"""
+        if node_a is None or node_b is None:
+            return
+
+        a_head = self.find_head(node_a)
+        b_head = self.find_head(node_b)
+
+        if(a_head != b_head):
+            a_set_size = self.size_dict[a_head]
+            b_set_size = self.size_dict[b_head]
+            if(a_set_size >= b_set_size):
+            
+                self.father_dict[b_head] = a_head
+                self.size_dict[a_head] = a_set_size + b_set_size
+            else:
+                self.father_dict[a_head] = b_head
+                self.size_dict[b_head] = a_set_size + b_set_size
+============================================================================================================
+LEETCODE 130
+给定一个二维的矩阵，包含 'X' 和 'O'（字母 O）。
+找到所有被 'X' 围绕的区域，并将这些区域里所有的 'O' 用 'X' 填充。
+
+示例:
+X X X X
+X O O X
+X X O X
+X O X X
+运行你的函数后，矩阵变为：
+X X X X
+X X X X
+X X X X
+X O X X
+
+解释:
+被围绕的区间不会存在于边界上，换句话说，任何边界上的 'O' 都不会被填充为 'X'。 任何不在边界上，或不与边界上的 'O' 相连的 'O' 最终都会被填充为 'X'。
+如果两个元素在水平或垂直方向相邻，则称它们是“相连”的。
+
+解答：
+class Solution(object):
+    def solve(self, board):
+        """
+        :type board: List[List[str]]
+        :rtype: None Do not return anything, modify board in-place instead.
+        """
+        if board == None or len(board) == 0:
+            return board
+        row = len(board)
+        col = len(board[0])
+        data_list = [i for i in range(col*row)]
+        data_list.append(-1)
+        
+        sets = UnionFindSet(data_list)
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if board[i][j] == "O":
+                    if i ==0 or i ==len(board)-1 or j == 0 or j ==len(board[0])-1:
+                        sets.union(-1,i*col+j)
+                    else:
+                        if i-1 >= 0 and board[i-1][j] =="O":
+                            sets.union(i*col+j,(i-1)*col+j)
+                        if i+1 < row and board[i+1][j] =="O":
+                            sets.union(i*col+j,(i+1)*col+j)
+                        if j-1>=0 and board[i][j-1]=="O":
+                            sets.union(i*col+j,i*col+(j-1))
+                        if j+1<col and board[i][j+1]=="O":
+                            sets.union(i*col+j,i*col+(j+1))
+        for i in range(row):
+            for j in range(col):
+                if sets.is_same_set(-1,i*col+j):
+                    board[i][j] = "O"
+                else:
+                    board[i][j] ="X"
+        return board
+==========================================================================================================
+LEETCODE 924
+在节点网络中，只有当 graph[i][j] = 1 时，每个节点 i 能够直接连接到另一个节点 j。
+一些节点 initial 最初被恶意软件感染。只要两个节点直接连接，且其中至少一个节点受到恶意软件的感染，
+那么两个节点都将被恶意软件感染。这种恶意软件的传播将继续，直到没有更多的节点可以被这种方式感染。
+假设 M(initial) 是在恶意软件停止传播之后，整个网络中感染恶意软件的最终节点数。
+我们可以从初始列表中删除一个节点。如果移除这一节点将最小化 M(initial)， 则返回该节点。如果有多个节点满足条件，就返回索引最小的节点。
+请注意，如果某个节点已从受感染节点的列表 initial 中删除，它以后可能仍然因恶意软件传播而受到感染。
+
+示例 1：
+输入：graph = [[1,1,0],[1,1,0],[0,0,1]], initial = [0,1]
+输出：0
+
+示例 2：
+输入：graph = [[1,0,0],[0,1,0],[0,0,1]], initial = [0,2]
+输出：0
+
+示例 3：
+输入：graph = [[1,1,1],[1,1,1],[1,1,1]], initial = [1,2]
+输出：1
+
+解答1：（超时）
+import copy
+class Solution:
+    def minMalwareSpread(self, graph, initial):
+        min_ = len(graph)
+        initial.sort()
+        min_index = initial[0]
+        for i in initial:
+            graph_ = copy.deepcopy(graph)
+            initial_ = copy.deepcopy(initial)
+            initial_.remove(i)
+            mark = self.bfs(graph_, initial_)
+            mark.add(i)
+            if len(mark) < min_:
+                min_index = i
+                min_ = len(mark)
+        return min_index
+
+    def bfs(self, graph, initial):
+        queue = initial
+        mark = set()
+        for i in queue:
+            mark.add(i)
+        while len(queue) != 0:
+            cur = queue.pop(0)
+            for i in range(len(graph)):
+                if graph[cur][i] == 1 and i not in mark:
+                    queue.append(i)
+                    mark.add(i)
+        return mark
+
+解答二：
+思路
+首先，把图中所有的连通分量各自标上不同的颜色，这可以用深度优先搜索来实现。
+如果 initial 中的两个节点的颜色相同（即属于同一个连通分量），那移除这种节点是不会减少 M(initial) 的，因为恶意软件会感染同一个连通分量中的所有节点。
+因此，对于 initial 中颜色唯一的节点，从中选择一个移除来最大限度地减少被感染节点数。
+(如果有多个节点都可以达成最优解，就选择下标最小的节点。另外，如果没有颜色唯一的节点，就直接返回下标最小的节点。)
+
+算法：
+算法包括以下几个部分：
+给连通分量上色： 遍历每个节点，如果它还没有颜色，就用深度优先搜索去遍历它所在的连通分量，同时给这个连通分量标上新的颜色。
+计算每个连通分量的大小： 数一下每个颜色的节点各有多少个。
+找到唯一的颜色： 找到 initial 中颜色唯一的节点。
+选择答案： 对于 initial 中颜色唯一的节点，计算这个颜色节点的个数。从中选出最大节点个数的那个，如果有多个最优解，选择其中节点下标最小的。
+如果没有颜色唯一的节点，直接返回 min(initial)。
+
+import collections
+class Solution(object):
+    def minMalwareSpread(self, graph, initial):
+        # 1. Color each component.
+        # colors[node] = the color of this node.
+
+        N = len(graph)
+        colors = {}
+        c = 0
+
+        def dfs(node, color):
+            colors[node] = color
+            for nei, adj in enumerate(graph[node]):
+                if adj and nei not in colors:
+                    dfs(nei, color)
+
+        for node in range(N):
+            if node not in colors:
+                dfs(node, c)
+                c += 1
+
+        # 2. Size of each color.
+        # size[color] = number of occurrences of this color.
+        size = collections.Counter(colors.values())
+
+        # 3. Find unique colors.
+        color_count = collections.Counter()
+        for node in initial:
+            color_count[colors[node]] += 1
+
+        # 4. Answer
+        ans = float('inf')
+        for x in initial:
+            c = colors[x]
+            if color_count[c] == 1:
+                if ans == float('inf'):
+                    ans = x
+                elif size[c] > size[colors[ans]]:
+                    ans = x
+                elif size[c] == size[colors[ans]] and x < ans:
+                    ans = x
+
+        return ans if ans < float('inf') else min(initial)
+        
+解答三：并查集

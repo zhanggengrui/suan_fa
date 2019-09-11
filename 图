@@ -44,6 +44,10 @@ class UnionFindSet(object):
             else:
                 self.father_dict[a_head] = b_head
                 self.size_dict[b_head] = a_set_size + b_set_size
+    def size(self,node):
+        father = self.father_dict[node]
+        return self.size_dict[father]
+        
 ============================================================================================================
 LEETCODE 130
 给定一个二维的矩阵，包含 'X' 和 'O'（字母 O）。
@@ -152,7 +156,7 @@ class Solution:
                     mark.add(i)
         return mark
 
-解答二：
+解答二：深度优先
 思路
 首先，把图中所有的连通分量各自标上不同的颜色，这可以用深度优先搜索来实现。
 如果 initial 中的两个节点的颜色相同（即属于同一个连通分量），那移除这种节点是不会减少 M(initial) 的，因为恶意软件会感染同一个连通分量中的所有节点。
@@ -212,3 +216,81 @@ class Solution(object):
         return ans if ans < float('inf') else min(initial)
         
 解答三：并查集
+class UnionFindSet(object):
+    """并查集"""
+    def __init__(self, data_list):
+        """初始化两个字典，一个保存节点的父节点，另外一个保存父节点的大小
+        初始化的时候，将节点的父节点设为自身，size设为1"""
+        self.father_dict = {}
+        self.size_dict = {}
+
+        for node in data_list:
+            self.father_dict[node] = node
+            self.size_dict[node] = 1
+
+    def find_head(self, node):
+        """使用递归的方式来查找父节点
+
+        在查找父节点的时候，顺便把当前节点移动到父节点上面
+        这个操作算是一个优化
+        """
+        father = self.father_dict[node]
+        if(node != father):
+            father = self.find_head(father)
+        self.father_dict[node] = father
+        return father
+
+    def is_same_set(self, node_a, node_b):
+        """查看两个节点是不是在一个集合里面"""
+        return self.find_head(node_a) == self.find_head(node_b)
+
+    def union(self, node_a, node_b):
+        """将两个集合合并在一起"""
+        if node_a is None or node_b is None:
+            return
+
+        a_head = self.find_head(node_a)
+        b_head = self.find_head(node_b)
+
+        if(a_head != b_head):
+            a_set_size = self.size_dict[a_head]
+            b_set_size = self.size_dict[b_head]
+            if(a_set_size >= b_set_size):
+            
+                self.father_dict[b_head] = a_head
+                self.size_dict[a_head] = a_set_size + b_set_size
+            else:
+                self.father_dict[a_head] = b_head
+                self.size_dict[b_head] = a_set_size + b_set_size
+                
+    def size(self,node):
+        father = self.father_dict[node]
+        return self.size_dict[father]
+                
+class Solution:
+    def minMalwareSpread(self, graph, initial) :
+        data_list = [x for x in range(len(graph))]
+        ufs = UnionFindSet(data_list)
+        for i in range(len(graph)):
+            for j in range(i + 1, len(graph)):
+                if graph[i][j] == 1:
+                    ufs.union(i, j)
+        d = dict()
+        for i in initial:
+            father = ufs.find_head(i)
+            d[father] = d.get(father, [])
+            d[father].append(i)
+        node = len(graph)
+        num = 0
+        for father in d.keys():
+            if len(d[father]) == 1:
+                if ufs.size(d[father][0]) > num:
+                    node = d[father][0]
+                    num = ufs.size(d[father][0])
+                elif ufs.size(d[father][0]) == num and d[father][0] < node:
+                    node = d[father][0]
+
+        if node == len(graph):
+            return min(initial)
+        else:
+            return node
